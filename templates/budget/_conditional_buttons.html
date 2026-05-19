@@ -1,0 +1,21 @@
+{% from 'macros/btn.html' import ui_element with context %}
+<div class="d-grid gap-2 mb-2">
+    {{ ui_element(
+        text="Անալիզ",
+        href=url_for('analytics.analytics_dashboard', slug=budget.slug) if expenses else "#",
+        variant="outline-primary",
+        icon="graph-up",
+        extra_classes="btn-sm rounded-pill w-100" ~ ("" if expenses else " disabled"),
+        hx_boost="true" if expenses else "false",
+        hyperscript = "on click if I match .disabled halt"
+    ) }}
+
+    {{ ui_element(
+        text="Իրական ծախս",
+        href=url_for('budget.view_actuals', slug=budget.slug) if expenses else "#",
+        variant="primary",
+        icon="calculator",
+        extra_classes="btn-sm rounded-pill w-100" ~ ("" if expenses else " disabled"),
+        hyperscript = "on click if I match .disabled halt"
+    ) }}
+</div>

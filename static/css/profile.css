@@ -1,0 +1,41 @@
+    .profile-card {
+        border-top: 4px solid var(--primary-color);
+    }
+
+    .stat-card {
+        transition: transform 0.2s;
+        cursor: default;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: opacity 0.2s;
+    }
+
+    .gallery-img:hover {
+        opacity: 0.8;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-border);
+        color: #1a1200;
+        font-weight: 600;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-border);
+        color: #000;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(217, 164, 6, 0.25);
+    }

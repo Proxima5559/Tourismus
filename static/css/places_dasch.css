@@ -1,0 +1,92 @@
+
+.card, .accordion-item {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px; 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card-header-bar {
+    padding: 14px 20px;
+    font-size: 11px;
+    font-weight: 800; 
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a1aab3;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.info-row, .emerg-row {
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.2s ease;
+}
+
+.info-row:hover {
+    background: rgba(255, 255, 255, 0.02); /* Subtle highlight on hover */
+}
+
+.info-key {
+    color: #8a94a6; 
+    font-size: 12px;
+}
+
+.city-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.city-btn:hover {
+    background: rgba(217, 164, 6, 0.1);
+    border-color: rgba(217, 164, 6, 0.6);
+    color: #ffca28; /* Goldish highlight */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(217, 164, 6, 0.15);
+}
+
+.progress-wrap {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 100px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.progress-fill {
+    box-shadow: 0 0 10px var(--primary-color); /* Neon glow */
+    background: linear-gradient(90deg, var(--primary-color), #ffffffaa);
+}
+
+.accordion-button {
+    padding: 16px 20px;
+}
+
+.accordion-button:not(.collapsed) {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.accordion-item.danger-acc {
+    border-color: rgba(255, 82, 82, 0.3) !important;
+    background: linear-gradient(145deg, rgba(255, 82, 82, 0.05), transparent);
+}
+
+.accordion-button.danger-btn {
+    color: #ff8a8a !important;
+}
+
+.pill {
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.section-label {
+    color: #6c757d;
+    margin-bottom: 8px;
+    display: block;
+}

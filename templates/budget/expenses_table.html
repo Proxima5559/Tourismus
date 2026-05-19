@@ -1,0 +1,165 @@
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/pagination.html' import render_pagination with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_info.css') }}">
+
+<div id="expenses_innerPart" class="card border-0 shadow-sm rounded-4 mb-4 animate__animated animate__fadeIn">
+    <div class="card-body p-4">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+                <h5 class="fw-bold mb-0">Expenses</h5>
+                <p class="text-muted small mb-0">
+                    {% if expenses %}{{ expenses|length }} expense{% if expenses|length != 1 %}s{% endif %}{% else %}No expenses yet{% endif %}
+                </p>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-2 w-100 w-md-auto justify-content-start justify-content-md-end">
+               {{ ui_element(
+                    text="Ավելացնել ծախս",
+                    variant="success",
+                    icon="plus-lg",
+                    extra_classes="btn-sm shadow-sm rounded-pill px-3",
+                    onclick="document.activeElement.blur()",
+                    data_bs_toggle="modal",
+                    data_bs_target="#addExpenseModal"
+                ) }}
+
+                <select
+                    name="category_id"
+                    class="form-select form-select-sm rounded-pill"
+                    style="width: auto; min-width: 150px;"
+                    hx-trigger="change"
+                    hx-get="{{ url_for('expenses.filter_expenses', slug=budget.slug) }}"
+                    hx-target="#expenses_innerPart"
+                    hx-swap="outerHTML">
+                    <option value="" {% if not selected_category %}selected{% endif %}>All categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                {% if expenses %}
+                    {{ ui_element(
+                        text="Delete All",
+                        variant="outline-danger",
+                        hx_delete=url_for('expenses.delete_all_expenses', budget_id=budget.id),
+                        hx_target="#expenses_innerPart",
+                        hx_confirm="Are you sure you want to delete all expenses?",
+                        icon="trash",
+                        extra_classes="btn-sm rounded-pill"
+                    ) }}
+                {% endif %}
+            </div>
+        </div>
+
+        {% if expenses %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr class="text-uppercase small text-muted" style="letter-spacing: 0.05em;">
+                        <th class="fw-semibold py-2 ps-3 text-light">Description</th>
+                        <th class="fw-semibold py-2 text-light">Amount</th>
+                        <th class="fw-semibold py-2 text-light">Category</th>
+                        <th class="fw-semibold py-2 text-light">Date</th>
+                        <th class="fw-semibold py-2 text-center text-light">Status</th>
+                        <th class="fw-semibold py-2 text-center text-light">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr class="{% if expense.is_closed %}expense-closed{% endif %}">
+                        <td class="ps-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="checkbox"
+                                    class="form-check-input mt-0 expense-toggle"
+                                    {% if expense.is_closed %}checked{% endif %}
+                                    hx-post="{{ url_for('expenses.toggle_expense_closed', slug=expense.slug) }}?page={{ current_page }}"
+                                    hx-trigger="change"
+                                    hx-target="#expenses_innerPart">
+                                <a href="{{ url_for('expenses.expense_details', slug=expense.slug) }}"
+                                   class="expense-link text-decoration-none fw-medium
+                                          {% if expense.is_closed %}text-muted text-decoration-line-through{% else %}text-primary{% endif %}"
+                                   data-original-href="{{ url_for('expenses.expense_details', slug=expense.slug) }}"
+                                   {% if expense.is_closed %}style="pointer-events:none;"{% endif %}>
+                                    {{ expense.description[:15] ~ '...' if expense.description|length > 15 else expense.description }}
+                                </a>
+                            </div>
+                        </td>
+
+                        <td class="fw-semibold">{{ expense.amount | money(budget.currency) }}</td>
+                        <td><span class="badge bg-secondary-subtle text-secondary rounded-pill px-3">{{ expense.category.name }}</span></td>
+                        <td class="text-muted small">{{ expense.created_at | smart_date(format='Y-m-d') }}</td>
+
+                        <td class="text-center">
+                            {% if expense.is_closed %}
+                                <span class="badge bg-success-subtle text-success rounded-pill px-3">Paid</span>
+                            {% else %}
+                                <span class="badge bg-warning-subtle text-warning rounded-pill px-3">Planned</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            {{ ui_element(
+                                text="🗑️", 
+                                variant="danger",
+                                hx_delete=url_for('expenses.delete_expense', expense_id=expense.id),
+                                hx_target="#expenses_innerPart",
+                                hx_confirm="Are you sure you want to delete this expense?",
+                                extra_classes="shadow-sm btn-sm"
+                            ) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {{ render_pagination(
+            pagination=None, 
+            endpoint='expenses.filter_expenses', 
+            hx_target='#expenses_innerPart',
+            current_page=current_page,
+            total_pages=total_pages,
+            slug=budget.slug,
+            category_id=selected_category
+        ) }}
+        
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-receipt text-muted fs-1 d-block mb-2"></i>
+            <p class="text-muted mb-0">Ծախս չկա։ Ավալեցրեք այն սեղմելով "Ավելացնել ծախս" կոճակը</p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+ <!-- <div class="mb-4">
+    {{ ui_element(
+        text="← Back to Budgets",
+        href=url_for('budget.budget_dashboard'),
+        variant="outline-secondary",
+        extra_classes="btn-sm rounded-pill px-4",
+        hx_boost="true"
+    ) }}
+    </div> -->
+<!-- <script>
+function toggleExpenseLink(checkbox) {
+    const link = checkbox.nextElementSibling;
+    const originalHref = link.dataset.originalHref;
+    if (checkbox.checked) {
+        link.classList.add('text-decoration-line-through', 'text-muted');
+        link.classList.remove('text-primary');
+        link.style.pointerEvents = 'none';
+        link.href = '#';
+    } else {
+        link.classList.remove('text-decoration-line-through', 'text-muted');
+        link.classList.add('text-primary');
+        link.style.pointerEvents = 'auto';
+        link.href = originalHref;
+    }
+    checkbox.disabled = false;
+}
+</script> -->

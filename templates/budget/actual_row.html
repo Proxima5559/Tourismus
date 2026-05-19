@@ -1,0 +1,25 @@
+{% from 'macros/btn.html' import ui_element with context %}
+<tr id="expense-{{ expense.id }}" class="expense-row {{ 'table-danger-soft' if (expense.amount - (expense.actual_amount or 0)) < 0 else '' }}">
+    <td class="ps-4 fw-bold text-light">{{ expense.description }}</td>
+    <td><span class="badge bg-light text-dark">{{ expense.category.name }}</span></td>
+    <td class="text-light">{{ expense.amount | money(budget.currency) }}</td>
+    <td>
+        <form hx-post="{{ url_for('budget.set_expense_actual', slug=expense.slug) }}"
+              hx-target="#expense-{{ expense.id }}" 
+              hx-swap="outerHTML"
+              class="d-flex gap-2">
+            <div class="input-group input-group-sm">
+                <input type="number" step="0.01" name="actual_amount" class="form-control" value="{{ expense.actual_amount }}">
+                {{ ui_element(
+                    text="Set",
+                    variant="primary",
+                    type="submit",
+                    extra_classes="bg-gold"
+                ) }}
+            </div>
+        </form>
+    </td>
+    <td class="text-end pe-4 fw-bold {{ 'text-danger' if (expense.amount - (expense.actual_amount or 0)) < 0 else 'text-success' }}">
+        {{ "%.2f"|format(expense.amount - (expense.actual_amount or 0)) }}
+    </td>
+</tr>

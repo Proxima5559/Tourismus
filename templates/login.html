@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/check_form.html' import render_field with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-header dark text-center py-4">
+                    <h2 class="h4 mb-0 text-uppercase" style="letter-spacing: 3px; font-weight: 800;">
+                        🔐 {{ _('Մուտք') }}
+                    </h2>
+                </div>
+                
+                <div class="card-body p-5">
+                    <form hx-post="{{ url_for('auth.login') }}" hx-target="#error-message" hx-swap="innerHTML">
+                        {{ form.csrf_token }}
+                        
+                        <div class="mb-4">
+                            {{ render_field(form.username, placeholder="Մուտքանուն", class="form-control form-control-lg") }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ render_field(form.password, placeholder="••••••••", type="password", class="form-control form-control-lg") }}
+                        </div>
+
+                        <div id="error-message" class="text-danger mb-3 text-center fw-bold"></div>
+                        
+                        {{ ui_element(
+                            text="Մուտք Գործել",
+                            type="submit",
+                            variant="success",
+                            extra_classes="w-100 py-3 fs-5 fw-bold text-white"
+                        ) }}
+                    </form>
+
+                    <div class="mt-5 pt-4 border-top border-secondary border-opacity-10 text-center">
+                        <p class="fs-6 text-muted mb-0">
+                            Չունե՞ք հաշիվ: 
+                            {{ ui_element(
+                                text="Գրանցվել այստեղ",
+                                href=url_for('auth.register'),
+                                variant="link",
+                                extra_classes="p-0 reset-anchor fs-6 text-decoration-none text-primary fw-bold bg-transparent",
+                                hx_boost="true"
+                            ) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control-lg {
+    font-size: 1.1rem !important;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from "macros/btn.html" import ui_element with context %}
+<style>
+    .error-wrapper {
+        position: fixed; 
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        z-index: 9999; 
+        background-color: #000;
+    }
+
+    .error-bg {
+        position: absolute;
+        top: -5%; 
+        left: -5%; 
+        width: 110%; 
+        height: 110%;
+        
+        background: url("{{ url_for('static', filename='images/image_404.avif') }}") no-repeat center center;
+        background-size: cover;
+        
+        filter: blur(8px) brightness(0.4);
+        
+        z-index: 1;
+        pointer-events: none; 
+    }
+
+    .error-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #e4e6eb;
+        max-width: 600px;
+        padding: 2rem;
+    }
+.error-title {
+    font-size: 8rem;
+    font-weight: 800;
+    margin-bottom: 0;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 30%, #5ecfef);
+    
+    /* THE MISSING PIECE: */
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    
+    -webkit-text-fill-color: transparent;
+    opacity: 0.9;
+    
+    /* Fallback for browsers that don't support clipping */
+    color: #fff; 
+}
+</style>
+
+<div class="error-wrapper">
+    <div class="error-bg"></div>
+
+    <div class="error-content animate__animated animate__fadeIn">
+        <h1 class="error-title">404</h1>
+        <h2 class="h4 mb-4 fw-light text-uppercase tracking-widest">Oops, you've drifted off course</h2>
+        <p class="mb-5 opacity-75">
+            The page you're looking for doesn't exist or has been moved to an unknown destination.
+        </p>
+
+        {{ ui_element(
+            text=icon('armchair', height=14, width=14) ~ " Return Home",
+            href=url_for('main.home'), 
+            extra_classes="btn-lab",
+            hx_boost=True
+        ) }}
+    </div>
+</div>
+{% endblock %}

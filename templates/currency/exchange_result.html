@@ -1,0 +1,16 @@
+<div id="result-container" class="mt-4 min-h-50">
+    {% if result %}
+    <div class="p-4 bg-primary-subtle rounded-4 text-center border border-primary-subtle animate-fade-in">
+        <small class="text-primary fw-bold text-uppercase mb-1 d-block" style="font-size: 0.7rem;">Փոխարինված
+            Գումար</small>
+        <h2 class="text-primary mb-0 fw-bold">{{ result }}</h2>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger rounded-3 d-flex align-items-center mb-0 border-0 shadow-sm" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <div class="small">{{ error }}</div>
+    </div>
+    {% endif %}
+</div>

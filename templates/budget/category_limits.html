@@ -1,0 +1,25 @@
+{% from 'macros/btn.html' import ui_element with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_info.css') }}">
+
+<div class="card border-0 shadow-sm rounded-4 mb-4 category-limits-section">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h5 class="fw-bold mb-0">Category Limits</h5>
+                <p class="text-muted small mb-0">Track spending vs. goals</p>
+            </div>
+            {{ ui_element(
+                text="Add Limit",
+                variant="warning",
+                icon="plus",
+                extra_classes="btn-sm rounded-pill px-4 shadow-sm fw-bold",
+                data_bs_toggle="modal",
+                data_bs_target="#addLimitModal"
+            ) }}
+        </div>
+
+        <div id="category-limits-table">
+            {% include 'budget/category_limits_table.html' %}
+        </div>
+    </div>
+</div>

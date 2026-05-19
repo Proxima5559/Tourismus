@@ -1,0 +1,58 @@
+{% macro tier_section(title, subtitle, countries, theme_color, icon, info_title, info_text, empty_msg) %}
+    <div class="row mb-4 animate__animated animate__fadeInUp">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-{{ theme_color }} px-4 py-2 fs-6 me-3 shadow-sm">
+                    <i data-lucide="{{ icon }}" class="me-2"></i>{{ title }}
+                </span>
+                <span class="text-muted fw-light">{{ countries|length }} {{ subtitle }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-5">
+        {% for country in countries %}
+        <div class="col">
+            <a href="{{ url_for('places_dashboard.country_page', country_code=country.code|upper) }}" 
+               class="text-decoration-none custom-card-link">
+                <div class="card h-100 bg-dark text-white border-start border-{{ theme_color }} border-4 shadow-sm hover-lift">
+                    <div class="card-body d-flex align-items-center p-3">
+                        <img src="https://flagcdn.com/w40/{{ country.code|lower }}.png" 
+                             alt="{{ country.name }} flag"
+                             class="me-3 rounded-1 shadow-sm"
+                             width="30" height="20"
+                             onerror="this.src='https://flagcdn.com/w40/un.png'">
+                        <span class="fw-bold small country-label">{{ country.name }}</span>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-end p-2">
+                        <span class="badge rounded-pill bg-{{ theme_color }} bg-opacity-10 text-{{ theme_color }}" style="font-size: 0.7rem;">
+                            #{{ loop.index }}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-{{ theme_color }} bg-opacity-10 border-{{ theme_color }} text-white" role="alert">
+                <i data-lucide="alert-circle" class="me-2"></i> {{ empty_msg }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12"> 
+            <div class="card border-0 border-top border-{{ theme_color }} border-3 bg-dark bg-gradient text-white h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-{{ theme_color }} d-flex align-items-center">
+                        <i data-lucide="info" class="me-2"></i> {{ info_title }}
+                    </h5>
+                    <p class="card-text text-light mb-0 small" style="line-height: 1.6;">
+                        {{ info_text }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

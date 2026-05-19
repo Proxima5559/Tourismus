@@ -1,0 +1,32 @@
+{% from 'macros/btn.html' import ui_element with context %}
+{% macro back_nav(
+    back_url, 
+    back_text="Back", 
+    current_page="", 
+    back_icon="arrow-left", 
+    use_pill_style=True,
+    hx_boost="true"
+) %}
+<nav aria-label="breadcrumb" class="{{ 'breadcrumb-container' if use_pill_style else 'analytics-mini-nav' }} mb-4">
+    <ol class="breadcrumb mb-0 align-items-center">
+        
+        <li class="breadcrumb-item">
+            {{ ui_element(
+                text=back_text,
+                href=back_url,
+                variant="none",
+                icon=back_icon,
+                extra_classes="btn-sm analytics-back-btn",
+                hx_boost=hx_boost
+            ) }}
+        </li>
+
+        {% if current_page %}
+        <li class="breadcrumb-item active {{ 'analytics-page-title' if not use_pill_style }}" aria-current="page">
+            <span class="ms-2">{{ current_page }}</span>
+        </li>
+        {% endif %}
+
+    </ol>
+</nav>
+{% endmacro %}

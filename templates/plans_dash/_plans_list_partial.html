@@ -1,0 +1,108 @@
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/pagination.html' import render_pagination %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plans_dash.css') }}">
+<div class="plans-list">
+    {% if plans %}
+        <div class="mb-4">
+            <div class="input-group rounded-3 overflow-hidden" style="border: 1px solid rgba(255,255,255,0.09);">
+                <span class="input-group-text border-0" style="background: var(--bg-card-2);">
+                    <i class="bi bi-search" style="color: var(--primary-color);"></i>
+                </span>
+                <input type="text"
+                    class="form-control border-0 py-2"
+                    placeholder="Search tags or tasks..."
+                    _="on input
+                        for card in .plan-card
+                            if card.textContent.toLowerCase() contains my value.toLowerCase()
+                            show card
+                            else
+                            hide card
+                            end
+                        end">
+            </div>
+        </div>
+
+        <div id="plans-container">
+            {% for plan in plans %}
+                <div class="plan-card card mb-3 p-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="mb-0 fw-bold">{{ plan.date.strftime('%A, %b %d') }}</h5>
+                                <small class="text-muted">
+                                    <i class="bi bi-geo-alt-fill me-1" style="color: var(--primary-color);"></i>{{ plan.budget.name }}
+                                </small>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-muted"
+                                      style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); font-size: 11px;">
+                                    {{ plan.items|length }} Tasks
+                                </span>
+
+                                {{ ui_element(
+                                    text="Checklist",
+                                    href=url_for('plans_dash.plan_detail', slug=plan.slug),
+                                    variant="outline-warning",
+                                    extra_classes="btn-sm rounded-pill px-4 fw-bold"
+                                ) }}
+
+                                {{ ui_element(
+                                    text="🗑️",
+                                    variant="danger",
+                                    extra_classes="btn-sm",
+                                    hx_delete=url_for('plans_dash.delete_plan', slug=plan.slug),
+                                    hx_confirm="Are you sure you want to delete this plan?",
+                                    hx_target="closest .plan-card",
+                                    hx_swap="outerHTML"
+                                ) }}
+                            </div>
+                        </div>
+
+                        {% if plan.items %}
+                            <div class="mb-3 py-2 px-3 rounded-3" style="background: var(--bg-card-2); border: 1px solid rgba(255,255,255,0.04);">
+                                <span class="section-header text-muted d-block mb-2" style="font-size: 10px;">
+                                    <i class="bi bi-check2-square me-1"></i>Tasks
+                                </span>
+                                {% for item in plan.items %}
+                                    <div class="small fw-medium d-flex align-items-start mb-1">
+                                        <span class="me-2" style="color: var(--primary-color);">•</span>
+                                        <span class="text-break">{{ item.description }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if plan.tag %}
+                            <div class="d-flex flex-wrap gap-2 pt-2" style="border-top: 1px solid rgba(255,255,255,0.06);">
+                                {% for t in plan.tag.split(',') %}
+                                    {% if loop.first %}
+                                        <span class="badge rounded-pill fw-bold"
+                                              style="background: rgba(217,164,6,0.15); color: var(--primary-color); border: 1px solid rgba(217,164,6,0.25);">
+                                            <i class="bi bi-star-fill me-1 small"></i>{{ t.strip() }}
+                                        </span>
+                                    {% else %}
+                                        <span class="badge rounded-pill text-muted"
+                                              style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
+                                            #{{ t.strip() }}
+                                        </span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center">
+            {{ render_pagination(pagination, target="#plans_innerPart", endpoint="plans_dash.filter_plans", budget_filter=selected_budget_id) }}
+        </div>
+
+    {% else %}
+        <div class="text-center py-5 opacity-75">
+            <i class="bi bi-calendar2-x display-4 text-muted"></i>
+            <p class="mt-2 text-muted">No plans scheduled for your trips yet.</p>
+        </div>
+    {% endif %}
+</div>

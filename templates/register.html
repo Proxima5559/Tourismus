@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/check_form.html' import render_field with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+
+<div class="container mt-5" id="register-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                
+                <div class="card-header gold text-center py-4">
+                    <h2 class="h4 mb-0 text-uppercase" style="letter-spacing: 3px; font-weight: 800;">
+                        🚀 {{ _('Ստեղծել Հաշիվ') }}
+                    </h2>
+                </div>
+
+                {% if error %}
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: {{ error|tojson }},
+                        background: '#fff',
+                        confirmButtonColor: '#d9a406'
+                    });
+                </script>
+                {% endif %}
+
+                <div class="card-body p-5">
+                    <form hx-post="{{ url_for('auth.register') }}" 
+                          hx-target="#register-container" 
+                          hx-select="#register-container"
+                          hx-swap="outerHTML">
+                        
+                        {{ form.csrf_token }}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(form.username, placeholder="Մուտքանուն", class="form-control form-control-lg") }}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(form.email, placeholder="name@example.com", class="form-control form-control-lg") }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Գաղտնաբառ</label>
+                            {{ form.password(class="form-control form-control-lg " + ("is-invalid" if form.password.errors else ""), 
+                                id="pw-input",
+                                placeholder="Մի՛ ուղարկիր ինձ Գուլագ...",
+                                _ ="on input
+                                    set requirements to /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).+$/
+                                    if my value matches requirements
+                                        add .d-none to <#gulag-warning/>
+                                    else
+                                        remove .d-none from <#gulag-warning/>
+                                    end"
+                            ) }}
+
+                            <div id="gulag-warning" class="stats-box mt-3 d-none border-warning">
+                                <strong class="text-warning">⚠️ Լսի՛ր ուշադիր, ընկեր:</strong> 
+                                <p class="small mb-0 text-muted">
+                                    Գաղտնաբառը պետք է պարունակի Մեծատառ, Փոքրատառ, Թիվ և Հատուկ նշան... 
+                                    <em>կամ գնա Գուլագ:</em> ☭
+                                </p>
+                            </div>
+
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ render_field(form.confirm_password, placeholder="Կրկնել գաղտնաբառը", class="form-control form-control-lg") }}
+                        </div>
+
+                        {{ ui_element(
+                            text="Գրանցվել",
+                            type="submit",
+                            variant="success",
+                            extra_classes="w-100 py-3 fs-5 fw-bold text-white"
+                        ) }}
+                    </form>
+
+                    <div class="mt-5 pt-4 border-top border-secondary border-opacity-10 text-center">
+                        <p class="fs-6 text-muted mb-0">
+                            Արդեն ունե՞ք հաշիվ: 
+                            {{ ui_element(
+                                text="Մուտք գործել",
+                                href=url_for('auth.login'),
+                                variant="link",
+                                extra_classes="p-0 reset-anchor fs-6 text-decoration-none text-primary fw-bold",
+                                hx_boost="true"
+                            ) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

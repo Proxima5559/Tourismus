@@ -1,0 +1,132 @@
+<div class="modal-header">
+    <h5 class="modal-title fw-bold text-light">
+        <i class="bi bi-calendar-check me-2" style="color: var(--primary-color);"></i>
+        {{ target_date.strftime('%d %B %Y') }}
+    </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body custom-scroll-container" style="max-height: 80vh; overflow-y: auto;">    <div class="row g-0">
+        <div class="col-md-6 pb-3 pb-md-0 pe-md-3" style="border-right: 1px solid rgba(255,255,255,0.06);">
+            <div class="d-flex justify-content-between align-items-center mb-3 sticky-top bg-inherit">
+                <h6 class="fw-bold mb-0 text-uppercase small tracking-widest" style="color: var(--primary-color);">Daily Plan</h6>
+                {% if plan %}
+                    <span class="badge rounded-pill"
+                          style="background: rgba(217,164,6,0.12); color: var(--primary-color); border: 1px solid rgba(217,164,6,0.25); font-size: 11px;">
+                        {{ plan.tag }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div style="max-height: 400px; overflow-y: auto; padding-right: 8px;" class="scroll-section">
+                {% if plan and plan.items %}
+                    <ul class="list-group list-group-flush">
+                        {% for item in plan.items %}
+                            <li class="list-group-item d-flex align-items-center gap-2 px-0 border-0 mb-1">
+                                <input class="form-check-input mt-0 flex-shrink-0"
+                                       type="checkbox"
+                                       style="border-color: rgba(217,164,6,0.4); background-color: transparent;"
+                                       {% if item.is_completed %}checked{% endif %} disabled>
+                                <label class="form-check-label {{ 'text-decoration-line-through text-muted' if item.is_completed }} small">
+                                    {{ item.description }}
+                                    {% if item.is_mandatory %}
+                                       <span style="color: #ff6b6b;" title="Mandatory">*</span>
+                                    {% endif %}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="text-center py-5 opacity-50">
+                        <p class="text-muted small">No tasks planned.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6 pt-3 pt-md-0 ps-md-4">
+            <h6 class="fw-bold mb-3 text-uppercase small tracking-widest" style="color: #ff6b6b;">Spending</h6>
+
+            <div style="max-height: 340px; overflow-y: auto; padding-right: 8px;" class="scroll-section">
+                {% if expenses %}
+                    {% for e in expenses %}
+                        <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-semibold small text-light">{{ e.description }}</span>
+                                <span class="fw-bold" style="color: #ff6b6b;">${{ "%.2f"|format(e.amount) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge rounded-pill text-muted p-0" style="font-size: 10px;">
+                                    {{ e.category.name }}
+                                </span>
+                                <small class="text-muted" style="font-size: 10px; opacity: 0.6;">{{ e.budget.name }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5 opacity-50">
+                        <p class="text-muted small">No expenses logged.</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if expenses %}
+                <div class="d-flex justify-content-between pt-3 mt-2 border-top border-secondary border-opacity-25">
+                    <span class="fw-bold small text-muted text-uppercase">Total</span>
+                    <span class="fw-bold fs-5" style="color: #ff6b6b;">${{ "%.2f"|format(expenses|sum(attribute='amount')) }}</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm px-3"
+            style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;"
+            data-bs-dismiss="modal">Close</button>
+    {% if plan %}
+        <a href="{{ url_for('plans_dash.plan_detail', slug=plan.slug) }}"
+           class="btn btn-sm fw-bold px-3 shadow-sm"
+           style="background: linear-gradient(135deg, var(--primary-border), var(--primary-color)); color: #1a1a1a; border: none;">
+            Open Editor
+        </a>
+    {% endif %}
+</div>
+
+<style>
+/* 1. Universal scrollbar styling for the sections */
+.scroll-section::-webkit-scrollbar {
+    width: 4px;
+}
+.scroll-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scroll-section::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+.scroll-section::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* 2. Responsive heights for the sections */
+.scroll-section {
+    /* Default for desktop/tablets */
+    max-height: 40vh; 
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .scroll-section {
+        max-height: 250px; 
+    }
+    
+    .col-md-6 {
+        border-right: none !important;
+    }
+}
+
+.tracking-widest { letter-spacing: 0.1em; }
+.bg-inherit { background: inherit; }
+</style>

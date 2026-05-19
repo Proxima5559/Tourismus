@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .error-wrapper {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #0d0d0d;
+        z-index: 9999;
+    }
+
+    .error-bg {
+        position: absolute;
+        top: -5%; left: -5%;
+        width: 110%; height: 110%;
+        background: url("{{ url_for('static', filename='images/image_500.avif') }}") no-repeat center center;
+        background-size: cover;
+        filter: blur(10px) brightness(0.3) grayscale(0.5); 
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .error-content {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        color: #e4e6eb;
+        max-width: 650px;
+        padding: 3rem;
+    }
+
+    .error-title {
+        font-size: 8rem;
+        font-weight: 800;
+        margin-bottom: 0;
+        line-height: 1;
+        background: linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%); 
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0.9;
+    }
+
+    .error-subtitle {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-top: 1rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+</style>
+
+<div class="error-wrapper">
+    <div class="error-bg"></div>
+
+    <div class="error-content animate__animated animate__fadeInUp">
+        <h1 class="error-title">500</h1>
+        <h2 class="error-subtitle">Internal Server Error</h2>
+        
+        <p class="mt-4 mb-5 opacity-75">
+            Something went wrong on our end. We're currently looking into the issue. 
+            In the meantime, try refreshing or head back to the dashboard.
+        </p>
+
+        <div class="d-flex gap-3 justify-content-center">
+            <button class="btn-lab-outline" onclick="window.location.reload();">
+                {{ icon('refresh-cw', height=14, width=14) }} Reload Page
+            </button>
+
+            {{ ui_element(
+                text=icon('home', height=14, width=14) ~ " Back to Home",
+                href=url_for('main.index'),
+                extra_classes="btn-lab",
+                hx_boost=True
+            ) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

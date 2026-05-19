@@ -1,0 +1,11 @@
+{% from 'macros/tiers.html' import tier_section %}
+    {{ tier_section(
+    title="Tier S - Ամենաապահով",
+    subtitle="երկիր",
+    countries=safe_countries,
+    theme_color="success",
+    icon="shield-check",
+    info_title="Ինչու են այս երկրները համարվում ամենաապահովը",
+    info_text="Այս երկրներն առանձնանում են ցածր հանցագործության մակարդակով, կայուն քաղաքական համակարգով և զարգացած ենթակառուցվածքներով:",
+    empty_msg="Ապահով երկրներ չեն գտնվել"
+) }}

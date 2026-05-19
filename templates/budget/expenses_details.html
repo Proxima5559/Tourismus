@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/nav_macros.html' import back_nav %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add_an_dt/add_an_dt.css') }}">
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                {{ back_nav(
+                    back_url=url_for('budget.view_budget_details', slug=budget.slug),
+                    back_text="Վերադառնալ բյուջեի ցանկին",
+                    current_page="Ծախսի մանրամասներ",
+                    use_pill_style=True
+                ) }}
+            </li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header gold">
+                    <h5 class="card-title mb-0">Ծախսի տեղեկատվություն</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="h4 mb-3"
+                        contenteditable="true"
+                        hx-post="{{ url_for('expenses.rename', slug=expense.slug) }}"
+                        hx-trigger="blur"
+                        hx-vals='js:{new_name: event.target.innerText}'>
+                        {{ expense.description }}
+                    </h3>
+
+                    <div class="stats-box mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <small class="text-muted text-uppercase fw-bold">Պլան-ծախս</small>
+                            <span class="fw-bold">{{ expense.amount | money(budget.currency) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <small class="text-muted text-uppercase fw-bold">Իրական ծախս</small>
+                            <span class="fw-bold" style="color: var(--primary-color);">{{ expense.actual_amount or 0 | money(budget.currency) }}</span>
+                        </div>
+                        {% set diff = expense.amount - (expense.actual_amount or 0) %}
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary">
+                            <small class="fw-bold text-uppercase text-muted">Տարբերություն</small>
+                            <span class="{{ 'variance-badge-pos' if diff >= 0 else 'variance-badge-neg' }}">
+                                {{ "+" if diff > 0 }}{{ "%.2f"|format(diff) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <strong class="text-muted" style="font-size:13px;">Կատեգորիա</strong>
+                        <select name="category_id"
+                                class="form-select form-select-sm w-auto"
+                                hx-post="{{ url_for('expenses.update_category', slug=expense.slug) }}"
+                                hx-trigger="change"
+                                hx-target="this"
+                                hx-swap="outerHTML">
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == expense.category_id %}selected{% endif %}>
+                                    {{ cat.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <small class="text-muted">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        {{ budget.start_date.strftime('%b %d') }}
+                        <span style="color: var(--primary-color);" class="mx-1">→</span>
+                        {{ budget.end_date.strftime('%b %d, %Y') }}
+                    </small>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header teal">
+                    <h5 class="card-title mb-0">Բյուջեի ազդեցություն</h5>
+                </div>
+                <div class="card-body">
+                    <div class="gauge-wrap">
+                        <canvas id="budgetGaugeChart"></canvas>
+                        <div class="gauge-label">
+                            <div style="font-size:22px; font-weight:700; color:var(--primary-color); line-height:1;">{{ expense_percentage|round(1) }}%</div>
+                            <div style="font-size:10px; color:#5e6570; text-transform:uppercase; letter-spacing:0.06em;">բյուջեից</div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mt-1">
+                        <div class="col-6">
+                            <div class="impact-cell">
+                                <div style="font-size:11px; color:#5e6570; text-transform:uppercase; letter-spacing:0.06em;">Ընդհանուր բյուջե</div>
+                                <div class="fw-bold">{{ budget.amount | money(budget.currency) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="impact-cell">
+                                <div style="font-size:11px; color:#5e6570; text-transform:uppercase; letter-spacing:0.06em;">Այս ծախսը</div>
+                                <div class="fw-bold" style="color:var(--primary-color);">{{ expense.amount | money(budget.currency) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="impact-cell">
+                                <div style="font-size:11px; color:#5e6570; text-transform:uppercase; letter-spacing:0.06em;">Մնացած</div>
+                                <div class="fw-bold" style="color:#1db954;">{{ remaining_amount | money(budget.currency) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header dark">
+                    <h5 class="card-title mb-0">ծախսերի տեղափոխում</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">Տեղափոխել գումար այս ծախսից այլ ծախսի միջև այս բյուջեում:</p>
+
+                    <form hx-post="{{ url_for('expenses.transfer_balance', slug=expense.slug) }}"
+                        hx-target="#exchange-result"
+                        hx-swap="innerHTML">
+                       <input type="hidden" name="csrf_token" value="{{ form.csrf_token._value() }}">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-muted text-uppercase" style="font-size:12px;">Նպատակային ծախս</label>
+                            <select name="target_expense_id" class="form-select" required>
+                                <option value="" disabled selected>Ընտրել նպատակային ծախսը...</option>
+                                {% for other in other_expenses %}
+                                    <option value="{{ other.id }}" {% if other.is_closed %}disabled{% endif %}>
+                                        {{ other.description }} (Current: {{ other.amount }})
+                                        {% if other.is_closed %} 🔒{% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted text-uppercase" style="font-size:12px;">Տեղափոխելու գումար</label>
+                            <div class="input-group">
+                                <span class="input-group-text">{{ budget.currency }}</span>
+                                <input type="number" name="amount" id="transferAmount" class="form-control" 
+                                    step="0.01" min="0.01" max="{{ expense.amount }}" required>
+                            </div>
+                            <div class="form-text text-muted">Մաքսիմում: {{ expense.amount }}</div>
+                        </div>
+
+                        <button type="submit" class="btn-gold">Հաստատել և տեղափոխել</button>
+                    </form>
+
+                    <div id="exchange-result" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('budgetGaugeChart').getContext('2d');
+        const expensePercentage = {{ expense_percentage|round(1) }};
+        const remainingPercentage = {{ remaining_percentage|round(1) }};
+
+        let gaugeColor = '#1db954';
+        if (expensePercentage > 75) gaugeColor = '#ff6b6b';
+        else if (expensePercentage > 50) gaugeColor = '#ffc107';
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [expensePercentage, remainingPercentage],
+                    backgroundColor: [gaugeColor, '#242a2c'],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                cutout: '74%',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            }
+        });
+    });
+</script>
+{% endblock %}

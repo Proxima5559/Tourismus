@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/nav_macros.html' import back_nav %}
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+<div class="container py-5">
+    
+    {{ back_nav(
+        back_url=url_for('budget.view_budget_details', slug=budget.slug),
+        back_text="Բյուջե",
+        current_page="Իրական ծախսեր",
+        use_pill_style=True
+    ) }}
+    <div id="stats-ribbon-container" 
+        hx-get="{{ url_for('budget.get_stats', slug=budget.slug) }}" 
+        hx-trigger="load, refreshStats from:body"
+        hx-swap="innerHTML"> 
+        {% include 'budget/_stats_partial.html' %}
+    </div>
+    {% include 'budget/actuals_table_fragment.html' %}
+</div>
+
+{% endblock %}

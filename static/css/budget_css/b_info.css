@@ -1,0 +1,246 @@
+:root {
+    --bg-card: #1f2324;
+    --bg-card-2: #242a2c;
+    --primary-soft: rgba(217, 164, 6, 0.1);
+    --primary-dark: #1a1200;
+    --radius-card: 1rem;        
+    --radius-pill: 50rem;
+}
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+
+.bg-success-soft  { background-color: rgba(25,135,84,.12); }
+.bg-warning-soft  { background-color: rgba(255,193,7,.15); }
+.bg-danger-soft   { background-color: rgba(220,53,69,.12); }
+.bg-primary-soft  { background-color: rgba(13,110,253,.1); }
+.bg-info-soft     { background-color: rgba(13,202,240,.12); }
+
+.badge.bg-success-soft { background-color: rgba(25,135,84,.15) !important; }
+.badge.bg-warning-soft { background-color: rgba(255,193,7,.18) !important; }
+.badge.bg-danger-soft  { background-color: rgba(220,53,69,.12) !important; }
+.badge.bg-info-soft    { background-color: rgba(13,202,240,.15) !important; }
+
+
+.budget-info-card {
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+
+@media (min-width: 768px) {
+    .border-end-md {
+        border-right: 1px solid #333 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .w-sm-auto {
+        width: 100% !important;
+    }
+    
+    #expenses_innerPart .card-body {
+        padding: 1rem !important;
+    }
+    
+    .table td, .table th {
+        padding-top: 0.6rem !important;
+        padding-bottom: 0.6rem !important;
+        font-size: 0.85rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .table thead {
+        display: none;
+    }
+
+    .table,
+    .table tbody,
+    .table tr,
+    .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        background: #1f1f1f;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        padding: 0.75rem;
+        border: 1px solid #333;
+    }
+
+    .table td {
+        border: none !important;
+        padding: 0.45rem 0 !important;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 0.9rem;
+    }
+
+    .table td::before {
+        font-weight: 600;
+        color: #999;
+        margin-right: 1rem;
+    }
+
+    .table td:nth-child(1)::before {
+        content: "Description";
+    }
+
+    .table td:nth-child(2)::before {
+        content: "Amount";
+    }
+
+    .table td:nth-child(3)::before {
+        content: "Category";
+    }
+
+    .table td:nth-child(4)::before {
+        content: "Date";
+    }
+
+    .table td:nth-child(5)::before {
+        content: "Status";
+    }
+
+    .table td:nth-child(6)::before {
+        content: "Delete";
+    }
+
+    .expense-link {
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.ls-1 { letter-spacing: 0.06em; }
+
+
+@keyframes pulse-warn {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.55; }
+}
+.pulse-warning { animation: pulse-warn 1.4s ease-in-out infinite; }
+
+
+.budget-action-bar {
+    border: 1.5px dashed var(--primary-border) !important;
+    background: var(--primary-soft) !important;
+}
+
+
+.category-limits-section {
+    background-color: var(--bg-card);   
+    color: #f8f9fa; 
+    border: 1px solid #333;      
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+    transition: all 0.3s ease;
+}
+
+.limit-card {
+    background-color: var(--bg-card-2); 
+    color: #e8e8e8;            
+    border: 1px solid #3d4244;   
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.limit-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(255,255,255,0.08); 
+    background-color: #222; 
+}
+
+.add-limit-form-card {
+    border-left: 4px solid var(--primary-color) !important;
+    background: var(--bg-card) !important; 
+    color: #f1f1f1;
+}
+
+.add-limit-form-card .form-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    color: #999; 
+}
+
+.add-limit-form-card .form-control,
+.add-limit-form-card .form-select {
+    background-color: #1a1d1e !important;
+    border-radius: 8px;
+    border: 1px solid #444 !important;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-limit-form-card .form-control:focus,
+.add-limit-form-card .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+
+.animate__animated { --animate-duration: 0.45s; }
+
+.expense-closed td {
+    opacity: 0.6;
+}
+
+@media (prefers-color-scheme: dark) {
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-hover-bg: rgba(255,255,255,.04);
+        color: #e8e8e8;
+    }
+
+    .table-light {
+        --bs-table-bg: #1e1e1e;
+        color: #aaa;
+    }
+
+    .bg-secondary-subtle { background-color: rgba(108,117,125,.2) !important; }
+    .text-secondary       { color: #aaa !important; }
+    .bg-warning-subtle    { background-color: rgba(255,193,7,.15) !important; }
+    .bg-success-subtle    { background-color: rgba(25,135,84,.15) !important; }
+
+    .form-select {
+        background-color: #252525;
+        border-color: #3a3a3a;
+        color: #e8e8e8;
+    }
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-color: #e8e8e8;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #373b3e;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+[data-bs-theme="dark"] .text-secondary { color: #adb5bd !important; }
+[data-bs-theme="dark"] .bg-secondary-subtle { background-color: rgba(173, 181, 189, 0.1) !important; }
+[data-bs-theme="dark"] .bg-warning-subtle { background-color: rgba(255, 193, 7, 0.1) !important; color: #ffc107 !important; }
+[data-bs-theme="dark"] .bg-success-subtle { background-color: rgba(25, 135, 84, 0.1) !important; color: #75b798 !important; }
+
+.expense-closed td {
+    opacity: 0.4;
+    text-decoration: line-through; 
+}

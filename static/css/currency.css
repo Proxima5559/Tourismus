@@ -1,0 +1,99 @@
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: inline-block;
+}
+
+.htmx-request .submit-text {
+    display: none;
+}
+
+.bg-custom-gold {
+    background-color: var(--primary-color) !important;
+}
+.text-gold {
+    color: var(--primary-color) !important;
+}
+.swap-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    line-height: 40px;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    background: white; 
+    transition: transform 0.2s;
+}
+
+.swap-btn:hover {
+    transform: rotate(180deg);
+    background: #f8f9fa;
+}
+
+.form-select,
+.form-control {
+    border-color: #eee;
+}
+
+.form-select:focus,
+.form-control:focus {
+    border-color: var(--primary-border);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tracking-wider {
+    letter-spacing: 0.05em;
+}
+
+
+.btn-gold {
+    background-color: var(--primary-color);
+    border-color: var(--primary-border);
+    color: #1a1200; 
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-gold:hover {
+    background-color: var(--primary-border);
+    border-color: #9c7503;
+    color: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+
+}
+
+.btn-gold:active {
+    background-color: #9c7503 !important;
+    transform: scale(0.98);
+}
+
+.bg-gold {
+    background-color: var(--primary-color) !important;
+}
+
+#loading-spinner .spinner-border {
+    border-right-color: transparent !important; /* This creates the 'tail' gap */
+    animation: spinner-border .75s linear infinite;
+}

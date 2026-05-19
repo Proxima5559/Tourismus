@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/nav_macros.html' import back_nav %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+{{ back_nav(
+        back_url=url_for('budget.view_budget_details', slug=budget.slug), 
+        back_text="Վերադառնալ բյուջեին", 
+        current_page="Անալիտիկա",
+        use_pill_style=True
+) }}
+
+<div class="analytics-table-section">
+        {% include 'analytics/analytics_table.html' %}
+</div>
+
+<div class="mb-4 analytics-controls row row-cols-2 row-cols-md-auto g-2 justify-content-md-center">
+
+    <div class="col">
+        {{ ui_element(
+            text="Burn Rate",
+            variant="outline-primary",
+            extra_classes="w-100",
+            hyperscript="on click 
+                            add .d-none to .chart-container 
+                            remove .d-none from #burnChartContainer 
+                            settle
+                            if Object.keys(Chart.instances).length > 0 for instance in Object.values(Chart.instances) call instance.resize() end"
+        ) }}
+    </div>
+
+    <div class="col">
+        {{ ui_element(
+            text="Categories",
+            variant="outline-primary",
+            extra_classes="w-100",
+            hyperscript="on click 
+                            add .d-none to .chart-container 
+                            remove .d-none from #categoryChartContainer 
+                            settle
+                            if Object.keys(Chart.instances).length > 0 for instance in Object.values(Chart.instances) call instance.resize() end"
+        ) }}
+    </div>
+
+    <div class="col">
+        {{ ui_element(
+            text="Daily Trend",
+            variant="outline-primary",
+            extra_classes="w-100",
+            hyperscript="on click 
+                            add .d-none to .chart-container 
+                            remove .d-none from #timeChartContainer 
+                            settle
+                            if Object.keys(Chart.instances).length > 0 for instance in Object.values(Chart.instances) call instance.resize() end"
+        ) }}
+    </div>
+
+    <div class="col">
+        {{ ui_element(
+            text="Utilization",
+            variant="outline-primary",
+            extra_classes="w-100",
+            hyperscript="on click 
+                            add .d-none to .chart-container 
+                            remove .d-none from #utilChartContainer 
+                            settle
+                            if Object.keys(Chart.instances).length > 0 for instance in Object.values(Chart.instances) call instance.resize() end"
+        ) }}
+    </div>
+
+</div>
+
+
+<div id="burnChartContainer" class="chart-container col-md-12">
+    <div class="card shadow-sm rounded-4 border-0 mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow me-2"></i>Spending Burn Rate</h5>
+            <canvas id="burnChart" 
+                    data-chart-type="line"
+                    data-labels='{{ dates|tojson }}'
+                    data-spent='{{ cumulative_amounts|tojson }}'
+                    data-limit='{{ limit_line|tojson }}' style="max-height: 350px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<div id="timeChartContainer" class="chart-container d-none">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card h-100 shadow-sm rounded-4 border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-graph-up me-2"></i>Daily Spending Trend</h5>
+                    <canvas id="timeChart" 
+                            data-chart-type="trend"
+                            data-labels='{{ dates|tojson }}'
+                            data-amounts='{{ daily_amounts|tojson }}'
+                            style="max-height: 350px;"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm rounded-4 border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-calculator me-2"></i>Summary</h5>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Total Spent</span>
+                            <span class="fw-bold badge bg-primary"> {{ budget.spent_amount | money(budget.currency)  }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Daily Average</span>
+                            <span class="fw-bold badge bg-primary"> 
+                                {% if daily_amounts|length > 0 %}
+                                    {{ (daily_amounts|sum / daily_amounts|length) | money(budget.currency) }}
+                                {% else %}
+                                    {{ 0 | money(budget.currency) }}
+                                {% endif %} 
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Highest Day</span>
+                            <span class="fw-bold badge bg-success"> {{ daily_amounts|max | money(budget.currency) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Lowest Day</span>
+                            <span class="fw-bold badge bg-danger"> {{ daily_amounts|min | money(budget.currency) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Budget Period</span>
+                             <span class="fw-bold badge bg-info"> {{ budget.start_date.strftime('%b %d') }} - {{ budget.end_date.strftime('%b %d, %Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="categoryChartContainer" class="chart-container d-none">
+    <div class="card shadow-sm rounded-4 border-0">
+        <div class="card-body text-center">
+            <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart me-2"></i>Spending by Category</h5>
+            <div style="height: 350px; position: relative;">
+                <canvas id="categoryPieChart"
+                        data-chart-type="doughnut"
+                        data-labels='{{ labels|tojson }}'
+                        data-values='{{ values|tojson }}'></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="utilChartContainer" class="chart-container d-none">
+    <div class="col-md-12">
+        <div class="card shadow-sm rounded-4 border-0">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-steps me-2"></i>Budget Utilization</h5>
+                <canvas id="utilizationChart" 
+                        data-chart-type="bar"
+                        data-spent="{{ total_spent or 0 }}"
+                        data-remaining="{{ budget.amount - total_spent if budget.amount > total_spent else 0 }}"
+                        style="max-height: 200px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js" id="chartjs-lib"></script>
+
+<script>
+(function() {
+    function buildAllCharts() {
+        if (typeof Chart !== 'undefined' && Chart.instances) {
+            Object.values(Chart.instances).forEach(chart => chart.destroy());
+        }
+
+        document.querySelectorAll('canvas[data-chart-type]').forEach(canvas => {
+            const type = canvas.dataset.chartType;
+            let config = { data: { datasets: [] }, options: { responsive: true, maintainAspectRatio: false } };
+
+            if (type === 'line') {
+                config.type = 'line';
+                config.data.labels = JSON.parse(canvas.dataset.labels || '[]');
+                config.data.datasets.push(
+                    { label: 'Total Spent', data: JSON.parse(canvas.dataset.spent || '[]'), borderColor: '#0d6efd', backgroundColor: 'rgba(13, 110, 253, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Limit', data: JSON.parse(canvas.dataset.limit || '[]'), borderColor: '#dc3545', borderDash: [5, 5], pointRadius: 0, fill: false }
+                );
+            } 
+            else if (type === 'trend') {
+                config.type = 'line';
+                config.data.labels = JSON.parse(canvas.dataset.labels || '[]');
+                config.data.datasets.push({ label: 'Daily Spending', data: JSON.parse(canvas.dataset.amounts || '[]'), borderColor: '#0d6efd', tension: 0.4 });
+            } 
+            else if (type === 'doughnut') {
+                config.type = 'doughnut';
+                const labels = JSON.parse(canvas.dataset.labels || '[]');
+                config.data.labels = labels.length ? labels : ["No Data"];
+                config.data.datasets.push({
+                    data: labels.length ? JSON.parse(canvas.dataset.values || '[]') : [1],
+                    backgroundColor: labels.length ? ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b", "#10b981"] : ["#e5e7eb"]
+                });
+                config.options.cutout = '70%';
+            } 
+            else if (type === 'bar') {
+                config.type = 'bar';
+                config.options.indexAxis = 'y';
+                config.options.scales = { x: { stacked: true }, y: { stacked: true } };
+                config.data.labels = ['Budget Status'];
+                config.data.datasets.push(
+                    { label: 'Spent', data: [parseFloat(canvas.dataset.spent)], backgroundColor: '#dc3545', borderRadius: 10 },
+                    { label: 'Remaining', data: [parseFloat(canvas.dataset.remaining)], backgroundColor: '#198754', borderRadius: 10 }
+                );
+            }
+
+            new Chart(canvas.getContext('2d'), config);
+        });
+    }
+
+    if (typeof Chart !== 'undefined') {
+        buildAllCharts();
+    } else {
+        document.getElementById('chartjs-lib').addEventListener('load', buildAllCharts);
+    }
+})();
+</script>
+{% endblock %}

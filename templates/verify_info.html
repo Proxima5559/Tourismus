@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .btn-primary-custom {
+        background-color: var(--primary-color);
+        border-color: var(--primary-border);
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+    .btn-primary-custom:hover {
+        background-color: var(--primary-border);
+        color: #fff;
+        transform: translateY(-1px);
+    }
+    .text-primary-custom {
+        color: var(--primary-color) !important;
+    }
+    .card-verify {
+        border-top: 4px solid var(--primary-color) !important;
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="card shadow-sm card-verify">
+                <div class="card-body p-4 p-md-5 text-center">
+                    
+                    <div class="mb-4">
+                        <div class="display-1 text-primary-custom">
+                            <i class="bi bi-envelope-check"></i> 
+                            </div>
+                    </div>
+
+                    <h2 class="h3 fw-bold mb-3">Confirm Your Email</h2>
+                    
+                    <p class="text-muted">
+                        We've sent a secure confirmation link to your inbox. 
+                        Please click the link to activate your account.
+                    </p>
+
+                    <div class="alert mt-4 text-start" style="background-color: #fff9e6; border: 1px dashed var(--primary-border);">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi bi-info-circle-fill text-primary-custom"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1 fw-bold">Development Mode</h6>
+                                <small class="text-secondary">
+                                    Since this is a diploma demo, the email has been "trapped" in 
+                                    <a href="https://mailtrap.io" target="_blank" class="fw-bold text-decoration-none text-primary-custom">Mailtrap</a>.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        {{ ui_element(
+                            text="Return to Login",
+                            href=url_for('auth.login'),
+                            variant="none",
+                            extra_classes="bg-gold py-2 fw-bold"
+                        ) }}
+                        {{ ui_element(
+                            text="Didn't get an email? Try again",
+                            href=url_for('auth.register'),
+                            variant="warning",
+                            extra_classes="text-muted text-decoration-none small"
+                        ) }}
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

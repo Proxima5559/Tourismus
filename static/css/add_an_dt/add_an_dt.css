@@ -1,0 +1,116 @@
+.card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+}
+
+.card-header {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 18px;
+}
+
+.card-header.gold {
+    background: linear-gradient(135deg, var(--primary-border), var(--primary-color));
+    color: #1a1200;
+}
+
+.card-header.teal {
+    background: #0d3d4f;
+    color: #5ecfef;
+    border-bottom: 1px solid rgba(94, 207, 239, 0.15);
+}
+
+.card-header.dark {
+    background: var(--bg-card-2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stats-box {
+    background: var(--bg-card-2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.variance-badge-pos {
+    background: rgba(25, 185, 95, 0.15);
+    color: #1db954;
+    border: 1px solid rgba(29, 185, 84, 0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.variance-badge-neg {
+    background: rgba(220, 53, 69, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(220, 53, 69, 0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.impact-cell {
+    background: var(--bg-card-2);
+    border-radius: 9px;
+    padding: 10px 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.form-control,
+.form-select {
+    background: var(--bg-card-2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    color: #e4e6eb !important;
+    border-radius: 10px !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: none !important;
+}
+
+.input-group-text {
+    background: rgba(217, 164, 6, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-right: none;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.btn-gold {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-border), var(--primary-color));
+    color: #1a1200;
+}
+
+.btn-gold:hover {
+    opacity: 0.9;
+}
+
+.gauge-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 14px;
+}
+
+.gauge-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

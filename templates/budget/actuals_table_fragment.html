@@ -1,0 +1,42 @@
+{% from 'macros/pagination.html' import render_pagination %}
+<div id="actuals-table-container" class="animate__animated animate__fadeIn" hx-swap="outerHTML">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            {% if expenses %}
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="bg-light text-uppercase small fw-bold">
+                            <tr>
+                                <th class="ps-4 text-light">Ծախս</th>
+                                <th class="text-light">Կատեգորիա</th>
+                                <th class="text-light">Պլանային Գումար</th>
+                                <th class="text-light" style="width: 200px;">Դնել իրականը</th>
+                                <th class="text-end pe-4 text-light">Տարբերություն</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in expenses %}
+                                {% set diff =  expense.amount - (expense.actual_amount or 0) %}
+                                {% include 'budget/actual_row.html' %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ render_pagination(pagination, 'budget.view_actuals', slug=budget.slug, hx_target='#actuals-table-container') }}
+            {% else %}
+                <div class="card-body text-center py-5">
+                    <div class="mb-3">
+                        <i class="bi bi-clipboard-x text-muted" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4 class="text-muted">Ծախս չկա</h4>
+                    <p class="text-secondary mb-4">Դուք դեռ չեք ավելացրել ծախսեր դաշտին:</p>
+                    {{ ui_element(
+                        text="Գնալ դաշբորդ",
+                        href=url_for('budget.budget_dashboard'),
+                        variant="primary",
+                        extra_classes="rounded-pill px-4"
+                    ) }}
+                </div>
+            {% endif %}
+        
+        </div>
+    </div>

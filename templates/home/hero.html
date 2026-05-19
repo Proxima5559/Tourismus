@@ -1,0 +1,167 @@
+<section class="py-5 py-lg-6" style="padding-top:4rem!important">
+  <div class="container">
+    <div class="row align-items-start g-5 g-lg-4">
+
+      <div class="col-lg-6">
+        <div class="animate__animated animate__fadeInUp">
+          <span class="eyebrow mb-4 d-inline-flex">
+            {{ icon('globe', height=11, width=11) }} Travel toolkit &middot; all-in-one
+          </span>
+        </div>
+
+        <h1 class="section-heading mt-3 animate__animated animate__fadeInUp" style="animation-delay:.08s">
+          Plan smarter,<br>
+          <span class="text-faded">travel further,</span><br>
+          spend less.
+        </h1>
+        <p class="mt-3 animate__animated animate__fadeInUp" style="font-size:14px;line-height:1.9;color:rgba(228,230,235,.55);max-width:380px;animation-delay:.14s">
+          Tourismus-ը ձեր բյուջեն, երթուղիները, վիզայի կարգավիճակը 
+          և արժույթի փոխարկումները պահում է մեկ տեղում՝ այնպես որ դուք ավելի քիչ ժամանակ եք 
+          ծախսում կազմակերպելու և ավելի շատ ժամանակ եք ծախսում ուսումնասիրելու վրա։
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 mt-4 animate__animated animate__fadeInUp" style="animation-delay:.2s">
+          {% if current_user.is_authenticated %}
+            {{ ui_element(
+              text=icon('map', height=13, width=13) ~ " My plans",
+              href=url_for('plans_dash.index'),
+              extra_classes="btn-lab",
+              hx_boost=True
+          ) }}
+
+          {{ ui_element(
+              text=icon('wallet', height=13, width=13) ~ " Budget",
+              href=url_for('budget.budget_dashboard'),
+              extra_classes="btn-lab-outline",
+              hx_boost=True
+          ) }}
+          {% else %}
+            {{ui_element(
+                text=icon('map', height=13, width=13) ~ " Explore tools",
+                href=url_for('plans_dash.index'),
+                extra_classes="btn-lab",
+                hx_boost=True
+            )
+            }}
+            {{ui_element(
+                text=icon('user', height=13, width=13) ~ " Sign up",
+                href=url_for('auth.register'),
+                extra_classes="btn-lab-outline",
+                hx_boost=True
+            )
+            }}
+          {% endif %}
+        </div>
+
+        <div class="stats-grid mt-5 animate__animated animate__fadeInUp" style="animation-delay:.28s">
+          <div class="stat-cell">
+            <div class="stat-value">5+</div>
+            <div class="stat-label">Հիմնական գործիքներ</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-value">180+</div>
+            <div class="stat-label">Երկրներ, որոնց վրա հետևում են</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-value">Live</div>
+            <div class="stat-label">FX rates</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-value">Անվճար</div>
+            <div class="stat-label">Սկսելու համար</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-delay:.18s">
+        <div class="terminal-card">
+          <div class="terminal-bar">
+            <div class="terminal-dots">
+              <span style="background:rgba(255,100,100,.5)"></span>
+              <span style="background:rgba(255,200,80,.5)"></span>
+              <span style="background:rgba(80,200,100,.5)"></span>
+            </div>
+            <span class="terminal-title">tourismus — dashboard.sh</span>
+            <span class="live-badge">live</span>
+          </div>
+
+          <div class="p-4 border-bottom" style="border-color:rgba(255,255,255,.06)!important">
+            <div class="eyebrow mb-2">Առաջարկվող գործիքներ</div>
+            <div class="fw-bold" style="font-size:1.3rem">Your travel command centre</div>
+            <div style="font-size:12px;color:rgba(228,230,235,.4);margin-top:3px">Budget · Plans · Visas · Currency</div>
+          </div>
+
+          <div class="row g-0">
+            <div class="col-md-6 p-4 border-end border-bottom border-md-bottom-0" style="border-color:rgba(255,255,255,.06)!important">
+              <div class="d-flex align-items-center gap-2 mb-4">
+                {{ icon('activity', height=13, width=13, class='text-gold') }}
+                <span style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(228,230,235,.35)">Trip health</span>
+              </div>
+              <div class="d-flex flex-column gap-3" id="hero-bars">
+                {% for label, pct in [('Budget on track', 72), ('Plans complete', 88), ('Visa coverage', 61)] %}
+                <div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span style="font-size:10px;color:rgba(228,230,235,.45)">{{ label }}</span>
+                    <span style="font-size:10px;font-weight:700;color:var(--primary-color)">{{ pct }}%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" data-width="{{ pct }}"
+                  _="on intersection(intersecting) having threshold 0.3
+                    if intersecting 
+                      set my style.width to my dataset.width + '%' 
+                      then halt the event">
+                      </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="col-md-6 p-4">
+              <div class="d-flex align-items-center gap-2 mb-4">
+                {{ icon('compass', height=13, width=13, class='text-gold') }}
+                <span style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(228,230,235,.35)">Quick access</span>
+              </div>
+              <div class="d-flex flex-column gap-2">
+               {{ ui_element(
+                  text=(icon('wallet', height=12, width=12) ~ " Բյուջետի վահանակ " ~ icon('chevron-right', height=12, width=12))|safe,
+                  href=url_for('budget.budget_dashboard'),
+                  extra_classes="usecase-row text-decoration-none",
+                  hx_boost=True
+              ) }}
+
+              {{ ui_element(
+                  text=(icon('map', height=12, width=12) ~ " Visa-free map " ~ icon('chevron-right', height=12, width=12))|safe,
+                  href=url_for('visa.visa_page'),
+                  extra_classes="usecase-row text-decoration-none",
+                  hx_boost=True
+              ) }}
+
+              {{ ui_element(
+                  text=(icon('dollar-sign', height=12, width=12) ~ " Արժույթի փոխանակում " ~ icon('chevron-right', height=12, width=12))|safe,
+                  href=url_for('currency.exchange'),
+                  extra_classes="usecase-row text-decoration-none",
+                  hx_boost=True
+              ) }}
+
+              {{ ui_element(
+                  text=(icon('calendar', height=12, width=12) ~ " Պատմության օրացույց " ~ icon('chevron-right', height=12, width=12))|safe,
+                  href=url_for('history.view_calendar'),
+                  extra_classes="usecase-row text-decoration-none",
+                  hx_boost=True
+              ) }}
+                </div>
+            </div>
+          </div>
+
+          <div class="px-4 py-3 border-top" style="border-color:rgba(255,255,255,.06)!important;font-size:11px;color:rgba(228,230,235,.35)">
+            <span style="color:var(--primary-color)">❯</span>
+            ready to explore
+            <span class="cursor-blink ms-1">▌</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

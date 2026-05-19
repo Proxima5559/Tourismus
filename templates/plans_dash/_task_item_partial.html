@@ -1,0 +1,40 @@
+{% from 'macros/btn.html' import ui_element with context %}
+
+<div id="item-{{ item.id }}"
+     class="list-group-item border-0 px-3 py-3 mb-2 rounded-3"
+     style="background: var(--bg-card-2); border: 1px solid rgba(255,255,255,0.04) !important;">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div class="d-flex align-items-center flex-grow-1 gap-3">
+            <input class="form-check-input mt-0 flex-shrink-0"
+                   type="checkbox"
+                   style="border-color: rgba(217,164,6,0.4); background-color: transparent;"
+                   {% if item.is_completed %}checked{% endif %}
+                   hx-post="{{ url_for('plans_dash.toggle_item', item_id=item.id) }}"
+                   hx-target="#item-{{ item.id }}"
+                   hx-swap="outerHTML">
+
+            <span class="fw-medium {% if item.is_completed %}text-decoration-line-through text-muted{% endif %}">
+                {{ item.description }}
+            </span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 ms-3">
+            {% if not item.is_mandatory %}
+                <span class="badge rounded-pill text-muted small"
+                      style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); font-size: 11px;">
+                    Optional
+                </span>
+            {% endif %}
+            {{ ui_element(
+                text="🗑️",
+                variant="danger",
+                extra_classes="btn-sm",
+                hx_delete=url_for('plans_dash.delete_item', item_id=item.id),
+                hx_target="#item-" ~ item.id,
+                hx_swap="delete"
+            ) }}
+        </div>
+    </div>
+</div>

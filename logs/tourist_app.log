@@ -1,0 +1,6 @@
+2026-05-14 11:06:43.811 | INFO     | blueprints.expenses.expenses:delete_expense:62 - Expense deleted | id=1 budget_id=1
+2026-05-14 11:07:08.870 | INFO     | blueprints.expenses.expenses:delete_expense:62 - Expense deleted | id=2 budget_id=1
+2026-05-14 11:07:12.684 | INFO     | blueprints.expenses.expenses:delete_expense:62 - Expense deleted | id=3 budget_id=1
+2026-05-14 11:30:43.556 | INFO     | services.places_service:get_external_api_data:58 - Fetched API data for CL: Chile with hospitality score 0
+2026-05-14 11:34:20.347 | INFO     | services.places_service:get_external_api_data:63 - Fetched API data call for CL (ISO3: CHL), Score: 0
+2026-05-14 11:35:48.104 | INFO     | services.places_service:get_external_api_data:66 - API Data for CL: ISO3=CHL, Hospitality=0

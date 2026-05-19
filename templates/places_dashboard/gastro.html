@@ -1,0 +1,12 @@
+{% from 'macros/tiers.html' import tier_section %}
+
+{{ tier_section(
+    title="Գաստրո-տուրիզմ",
+    subtitle="երկրներ հայտնի խոհանոցով",
+    countries=gastro_countries,
+    theme_color="warning",
+    icon="utensils",
+    info_title="Համային փորձառություն",
+    info_text="Այս երկրները հայտնի են իրենց հարուստ խոհարարական ավանդույթներով: Յուրաքանչյուրն առաջարկում է յուրահատուկ համային տեսականի, որը ճանաչված է ամբողջ աշխարհում:",
+    empty_msg="Խոհարարական երկրներ չեն գտնվել"
+) }}

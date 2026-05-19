@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm p-4 mb-4 text-center profile-card">
+                <div class="mb-3">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 80px; height: 80px;">
+                        <i data-lucide="user" size="40" class="text-muted"></i>
+                    </div>
+                </div>
+                <h3 class="fw-bold">{{ user.username }}</h3>
+                <p class="text-muted small">{{ user.email }}</p>
+                <hr>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="p-2 border rounded bg-dark">
+                            <small class="text-muted d-block">Budgets</small>
+                            <span class="fw-bold fs-5">{{ total_budgets }}</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 border rounded bg-dark">
+                            <small class="text-muted d-block">Daily Plans</small>
+                            <span class="fw-bold fs-5">{{ total_plans }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 p-4 mb-4">
+                <h5 class="fw-bold mb-3"><i data-lucide="settings" class="me-2"></i>Account Settings</h5>
+                <label class="form-label text-muted small">Update Email Address</label>
+                <div id="email-status"></div>
+                <form hx-post="{{ url_for('profile.update_email') }}" hx-target="#email-status">
+                    {{ form.csrf_token }}
+                    <div class="input-group">
+                        {{ form.email(class="form-control", placeholder="New Email") }}
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card border-danger bg-danger bg-opacity-10 p-4">
+                <h5 class="text-danger fw-bold"><i data-lucide="alert-triangle" class="me-2"></i>Danger Zone</h5>
+                <p class="small">Deleting your account will remove all budgets, plans, and <strong>{{ total_photos }} photos</strong> permanently.</p>
+                <button class="btn btn-danger btn-sm" 
+                        hx-post="{{ url_for('profile.delete_account') }}"
+                        hx-confirm="Are you sure you want to delete everything?">
+                    Delete My Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

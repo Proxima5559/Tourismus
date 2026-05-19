@@ -1,0 +1,45 @@
+<section class="py-5 py-lg-6">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-lg-6 reveal" _="install ScrollReveal">
+        <div class="h-100 p-4 p-lg-5" style="background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:8px">
+          <span class="eyebrow mb-4 d-inline-flex">Why Tourismus</span>
+          <div class="row g-3 mt-2">
+            {% from 'constants.html' import nomad_features %}
+            {% for ico, title, text in nomad_features %}
+            <div class="col-sm-6">
+              <div class="why-card">
+                <div class="why-icon">{{ icon(ico, height=14, width=14) }}</div>
+                <div class="fw-bold mb-1" style="font-size:14px">{{ title }}</div>
+                <p style="font-size:12px;line-height:1.7;color:rgba(228,230,235,.5);margin:0">{{ text }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 reveal reveal-d1" _="install ScrollReveal">
+        <div class="h-100 p-4 p-lg-5" style="background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:8px">
+          <span class="eyebrow mb-4 d-inline-flex">Ծածկված շրջաններ</span>
+          <h3 class="fw-bold mt-3 mb-1" style="font-size:1.4rem;line-height:1.25">
+          Ճկուն է աշխարհի յուրաքանչյուր անկյունում։<br>
+            <span class="text-faded" style="font-size:1.1rem">Disciplined in the details.</span>
+          </h3>
+          <p class="mt-3" style="font-size:13px;line-height:1.8;color:rgba(228,230,235,.5)">
+            Անկախ նրանից՝ դուք հաճախակի գործուղման մեջ եք, թե՝ երկարաժամկետ ճամփորդում եք, 
+            Tourismus-ը համընթաց է ձեր տեմպին։
+          </p>
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            {% from 'constants.html' import places %}
+            {% for place in places %}
+            <span class="tag-pill">{{ place }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

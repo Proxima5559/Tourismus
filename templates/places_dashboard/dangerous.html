@@ -1,0 +1,11 @@
+{% from 'macros/tiers.html' import tier_section %}
+    {{ tier_section(
+    title="Tier D - Ամենավտանգավոր",
+    subtitle="երկիր",
+    countries=dangerous_countries,
+    theme_color="danger",
+    icon="shield-alert",
+    info_title="Կարևոր ծանուցում",
+    info_text="երոնշյալ երկրները գտնվում են բարձր ռիսկի գոտում: Խստորեն խորհուրդ է տրվում ձեռնպահ մնալ այցելությունիցառկա ռազմական հակամարտությունների, քաղաքական անկայունության և անվտանգության լուրջ սպառնալիքների պատճառով:",
+    empty_msg="Վտանգավոր երկրներ չեն գտնվել"
+) }}

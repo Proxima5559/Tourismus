@@ -1,0 +1,46 @@
+<footer class="mt-5 pt-5 pb-4 animate__animated animate__fadeIn">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4 col-md-6">
+                <h4 class="fw-bold text-white mb-3">Tourismus</h4>
+                <p class="text-muted small" style="max-width: 300px;">
+                    Ձեր լավագույն ճանապարհորդական ուղեկիցը բյուջեի կազմման, արժույթի փոխանակման և ճանապարհորդության պլանավորման համար: Զգացեք աշխարհը ճշգրտությամբ:
+                <div class="d-flex gap-2 mt-3">
+                    <span class="impact-cell px-2 py-1">{{ icon('globe', height=16, width=16) }} EN</span>
+                    <span class="impact-cell px-2 py-1">{{ icon('shield-check', height=16, width=16) }} Secure</span>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase fw-bold mb-3 small tracking-widest text-primary">Explore</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><a href="{{ url_for('budget.budget_dashboard') }}" class="footer-link">Budget Tracker</a></li>
+                    <li class="mb-2"><a href="{{ url_for('currency.exchange') }}" class="footer-link">Currency Exchange</a></li>
+                    <li class="mb-2"><a href="{{ url_for('visa.visa_page') }}" class="footer-link">Visa Maps</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase fw-bold mb-3 small tracking-widest text-primary">Management</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><a href="{{ url_for('places_dashboard.places_dashboard') }}" class="footer-link">Places</a></li>
+                    <li class="mb-2"><a href="{{ url_for('plans_dash.index') }}" class="footer-link">Plan Dashboard</a></li>
+                    <li class="mb-2"><a href="{{ url_for('history.view_calendar') }}" class="footer-link">History</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.05);">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+            <p class="text-muted small mb-0">
+                &copy; 2026 Tourismus. Ստեղծվել է մոդերն ճանապարհորդների համար.
+            </p>
+            <div class="d-flex gap-4">
+                <a href="#" class="text-muted text-decoration-none small footer-link">Privacy</a>
+                <a href="#" class="text-muted text-decoration-none small footer-link">Terms</a>
+            </div>
+        </div>
+    </div>
+</footer>

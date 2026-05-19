@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% from 'macros/header_macros.html' import render_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_dash.css') }}">
+
+{{ render_header(
+    title="Բյուջեի վահանակ",
+    subtitle="Կառավարեք ձեր բյուջեն, հետևեք ծախսերին և պլանավորեք խելամիտ ծախսեր",
+    title_icon="wallet2",
+    accent_icon="briefcase-business"
+) }}
+
+<div id="budget-section">
+    {% include 'budget/budget_innerPart.html' %}
+</div>
+
+{% endblock %}

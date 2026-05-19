@@ -1,0 +1,28 @@
+<div id="error-container">
+    {% if error %}
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Constraint Violated',
+                html: {{ error|tojson }},
+                background: '#2f2f2f', 
+                color: '#ffffff',
+                confirmButtonColor: '#d33'
+            });
+        </script>
+    {% endif %}
+
+    {% if success %}
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ success|tojson }}',
+                timer: 1000,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.reload();
+            });
+        </script>
+    {% endif %}
+</div>

@@ -1,0 +1,170 @@
+
+.view-toggle .btn {
+    border-radius: 50rem;
+    padding: .45rem 1.6rem;
+    font-weight: 600;
+    border: 1.5px solid var(--primary-border, #b88a04);
+    color: var(--primary-border, #b88a04);
+    transition: background .2s, color .2s;
+}
+.view-toggle .btn.active,
+.view-toggle .btn[aria-pressed="true"] {
+    background-color: var(--primary-color, #d9a406);
+    border-color:     var(--primary-border, #b88a04);
+    color:            #1a1200;
+}
+
+/* Shared Card and Form UI */
+.card { 
+    background: var(--bg-card); 
+    border: 1px solid rgba(255,255,255,0.06) !important; 
+    border-radius: 14px; 
+}
+
+.form-control, .form-select { 
+    background: var(--bg-card-2) !important; 
+    border: 1px solid rgba(255,255,255,0.09) !important; 
+    color: #e4e6eb !important; 
+    border-radius: 10px !important; 
+}
+
+.form-control:focus, .form-select:focus { 
+    border-color: var(--primary-color) !important; 
+    box-shadow: none !important; 
+}
+
+.form-control::placeholder { 
+    color: #5e6570 !important; 
+}
+
+.section-header { 
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+}
+
+.add-plan-card {
+    border: 1.5px dashed var(--primary-border, #b88a04) !important;
+    background: rgba(217,164,6,.07) !important;
+    border-radius: 1rem;
+}
+.add-plan-card .form-label {
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #6c757d;
+}
+.add-plan-card .form-control:focus,
+.add-plan-card .form-select:focus {
+    border-color: var(--primary-color, #d9a406);
+    box-shadow: 0 0 0 3px rgba(217,164,6,.18);
+}
+
+
+.item-entry {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: .7rem 1rem;
+}
+.item-entry + .item-entry { margin-top: .5rem; }
+
+
+.plan-card {
+    border-left: 4px solid var(--primary-color, #d9a406) !important;
+    border-radius: 1rem;
+    transition: box-shadow .2s, transform .2s;
+}
+.plan-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+
+.item-row {
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    padding: .4rem .2rem;
+}
+.item-row:last-child { border-bottom: none; }
+.item-row.completed .item-label {
+    text-decoration: line-through;
+    opacity: .5;
+}
+.optional-badge {
+    font-size: .68rem;
+    background: rgba(108,117,125,.13);
+    color: #6c757d;
+    border-radius: 50rem;
+    padding: .12rem .55rem;
+}
+
+
+.expense-chip {
+    font-size: .75rem;
+    background: rgba(13,110,253,.10);
+    color: #0d6efd;
+    border-radius: 50rem;
+    padding: .15rem .65rem;
+    font-weight: 600;
+}
+
+.photo-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+}
+.photo-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 28px rgba(0,0,0,.14);
+}
+.photo-card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+}
+.photo-date-badge {
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+
+.photo-upload-zone {
+    border: 2px dashed var(--primary-border, #b88a04);
+    border-radius: 1rem;
+    background: rgba(217,164,6,.07);
+    min-height: 130px;
+    cursor: pointer;
+    transition: background .2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+}
+.photo-upload-zone:hover {
+    background: rgba(217,164,6,.16);
+}
+
+.htmx-indicator { display: none; }
+.htmx-request .htmx-indicator { display: inline-block; }
+
+
+[data-bs-theme="dark"] .add-plan-card,
+[data-bs-theme="dark"] .photo-upload-zone {
+    background: rgba(217,164,6,.05) !important;
+}
+[data-bs-theme="dark"] .item-entry {
+    background: #1e1e1e;
+    border-color: #333;
+}
+[data-bs-theme="dark"] .plan-card {
+    background: #1a1a1a;
+}
+[data-bs-theme="dark"] .item-row {
+    border-color: rgba(255,255,255,.07);
+}

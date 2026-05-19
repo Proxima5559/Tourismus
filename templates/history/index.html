@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}History Calendar{% endblock %}
+
+{% block content %}
+
+{% from 'macros/header_macros.html' import render_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_dash.css') }}">
+<style>
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: rgba(255,255,255,0.04);
+    gap: 1px;
+}
+.calendar-header {
+    background: var(--bg-card-2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5e6570;
+    text-align: center;
+    padding: 10px 0;
+}
+.calendar-day {
+    background: var(--bg-card);
+    min-height: 110px;
+    padding: 10px;
+    transition: background 0.15s;
+}
+
+.calendar-day:nth-child(7n) {
+        border-right: none !important; /* Remove right border for Saturday column */
+    }
+
+.calendar-day:hover { background: var(--bg-card-2); }
+.modal-content { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; }
+.modal-header, .modal-footer { border-color: rgba(255,255,255,0.06) !important; background: var(--bg-card-2) !important; }
+.list-group-item { background: transparent; border-color: rgba(255,255,255,0.06); color: #e4e6eb; }
+
+</style>
+
+<div class="container mt-5">
+     {{ render_header(
+        title="History Calendar",
+        subtitle="Track your daily plans and spending habits",
+        title_icon="history",
+        accent_icon="history"
+    ) }}
+
+    <div id="calendar-wrapper" class="shadow-sm rounded">
+        {% include 'history/calendar_grid.html' %}
+    </div>
+</div>
+
+<div class="modal fade" id="dayDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" id="day-detail-content">
+            <div class="p-5 text-center">
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

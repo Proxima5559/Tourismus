@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/check_form.html' import render_field %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg">
+                <div class="card-header teal d-flex align-items-center justify-content-between">
+                    <h2 class="h5 mb-0">🛠️ {{ _('Խմբագրել Բյուջեն') }}: {{ budget.name }}</h2>
+                    <span class="badge bg-dark-subtle text-info border border-info-subtle px-3">{{ budget.currency }}</span>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-7 border-end border-secondary border-opacity-10">
+                            <form method="POST" action="{{ url_for('budget.update_budget', slug=budget.slug) }}" hx-boost="true">
+                                {{ form.csrf_token }}
+                                
+                                <div class="mb-3">
+                                    {{ render_field(form.name, placeholder="օրինակ. Ամառային արձակուրդ") }}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-8 mb-3">
+                                        {{ render_field(form.amount, step="0.01") }}
+                                    </div>
+                                    <div class="col-4 mb-3">
+                                        {{ render_field(form.currency) }}
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-6 mb-3">
+                                        {{ render_field(form.start_date, type="date") }}
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        {{ render_field(form.end_date, type="date") }}
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-3 mt-4">
+                                    {{ ui_element(
+                                        text="Պահպանել",
+                                        variant="success",
+                                        type="submit",
+                                        icon="save",
+                                        extra_classes="flex-grow-1 text-white"
+                                    ) }}
+
+                                    {{ ui_element(
+                                        text="Չեղարկել",
+                                        variant="outline-secondary",
+                                        href=url_for('budget.view_budget_details', slug=budget.slug),
+                                        icon="x-circle"
+                                    ) }}
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-5 ps-md-4 mt-4 mt-md-0">
+                            <h6 class="text-uppercase small fw-bold text-muted mb-3">Ընթացիկ կարգավիճակ</h6>
+                            
+                            <div class="impact-cell mb-3">
+                                <span class="d-block small text-muted">Նախնական բյուջե</span>
+                                <span class="h4 fw-bold text-white">{{ "{:,.2f}".format(budget.amount) }}</span>
+                                <span class="small text-primary">{{ budget.currency }}</span>
+                            </div>
+
+                            <div class="stats-box">
+                                <p class="small text-muted mb-0">
+                                    <i class="fas fa-info-circle me-1 text-info"></i>
+                                    Փոփոխությունները կազդեն բոլոր կապակցված ծախսերի և հաշվետվությունների վրա:
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-gold {
+    padding: 10px 20px;
+}
+</style>
+{% endblock %}

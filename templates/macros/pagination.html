@@ -1,0 +1,51 @@
+{% macro render_pagination(pagination, endpoint, hx_target=None) %}
+    {% set curr = pagination.page if pagination and pagination.page is defined else current_page %}
+    {% set total = pagination.pages if pagination and pagination.pages is defined else total_pages %}
+
+    {% if total > 1 %}
+    <div class="d-flex justify-content-center py-3">
+        <nav aria-label="Page navigation">
+            <ul class="pagination mb-0 gap-2"> 
+
+                <li class="page-item {{ 'disabled' if curr <= 1 }}">
+                    {% if curr > 1 %}
+                        <button class="page-link" 
+                                hx-get="{{ url_for(endpoint, page=curr - 1, **kwargs) }}" 
+                                hx-target="{{ hx_target }}"
+                                hx-swap="outerHTML"> 
+                            Previous
+                        </button>
+                    {% else %}
+                        <span class="page-link">Previous</span>
+                    {% endif %}
+                </li>
+
+                {% for p in range(1, total + 1) %}
+                    <li class="page-item {{ 'active' if p == curr }}">
+                        <button class="page-link {{ 'bg-gold text-white' if p == curr else 'text-secondary' }}"
+                                hx-get="{{ url_for(endpoint, page=p, **kwargs) }}"
+                                hx-target="{{ hx_target }}"
+                                hx-swap="outerHTML"> 
+                            {{ p }}
+                        </button>
+                    </li>
+                {% endfor %}
+
+                <li class="page-item {{ 'disabled' if curr >= total }}">
+                    {% if curr < total %}
+                        <button class="page-link" 
+                                hx-get="{{ url_for(endpoint, page=curr + 1, **kwargs) }}"
+                                hx-target="{{ hx_target }}"
+                                hx-swap="outerHTML"> 
+                            Next
+                        </button>
+                    {% else %}
+                        <span class="page-link">Next</span>
+                    {% endif %}
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+{% endmacro %}

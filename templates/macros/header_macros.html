@@ -1,0 +1,23 @@
+{% macro render_header(title, subtitle, title_icon="wallet2", accent_icon="briefcase-business", extra_classes="") %}
+<div class="dashboard-header mb-4 p-4 rounded-4 shadow-sm animate__animated animate__fadeInDown {{ extra_classes }}">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        
+        <div>
+            <h2 class="fw-semibold mb-1 text-primary-custom d-flex align-items-center">
+                <i class="bi bi-{{ title_icon }} me-2 fs-4"></i>
+                {{ title }}
+            </h2>
+            <p class="text-muted small mb-0">
+                {{ subtitle }}
+            </p>
+        </div>
+
+        <div>
+            <span class="badge bg-soft-primary text-primary-custom px-3 py-2 rounded-pill">
+                {{ icon(accent_icon) if icon is defined else accent_icon }}
+            </span>
+        </div>
+
+    </div>
+</div>
+{% endmacro %}

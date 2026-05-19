@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/check_form.html' import render_field %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-header gold">
+                    <h2 class="h5 mb-0">✨ {{ _('Ստեղծել նոր բյուջե') }}</h2>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('budget.budget_dashboard') }}" hx-boost="true">
+                        {{ form.csrf_token }}
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                {{ render_field(form.name, placeholder="օրինակ. Արձակուրդ 2024", class="form-control form-control-lg") }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                {{ render_field(form.amount, step="0.01", placeholder="0.00") }}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                {{ render_field(form.currency, placeholder="AMD, USD...") }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ render_field(form.start_date, type="date") }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ render_field(form.end_date, type="date") }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-3 mt-4">
+                            {{ ui_element(
+                                text="Հաստատել",
+                                variant="success", 
+                                type="submit",
+                                icon="check-circle",
+                                extra_classes="flex-grow-1 text-white"
+                            ) }}
+
+                            {{ ui_element(
+                                text="Չեղարկել",
+                                variant="outline-secondary",
+                                href=url_for('budget.budget_dashboard'),
+                                icon="x"
+                            ) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 bg-transparent">
+                <div class="card-header dark">
+                    <h3 class="h6 mb-0 text-uppercase">📋 {{ _('Պահանջներ') }}</h3>
+                </div>
+                <div class="card-body px-0">
+                    <div class="stats-box mb-3">
+                        <small class="text-muted d-block mb-1">{{ _('Անվանում') }}</small>
+                        <p class="mb-0 small">Նվազագույնը 3 նիշ: Ընտրեք հստակ նպատակ:</p>
+                    </div>
+                    <div class="stats-box mb-3">
+                        <small class="text-muted d-block mb-1">{{ _('Գումար') }}</small>
+                        <p class="mb-0 small text-success">Միայն դրական թվեր: Բյուջեն չի կարող լինել 0:</p>
+                    </div>
+                    <div class="stats-box">
+                        <small class="text-muted d-block mb-1">{{ _('Ժամկետներ') }}</small>
+                        <p class="mb-0 small">
+                            <span class="text-warning">⚠️ Ուշադրություն:</span> 
+                            Ավարտի ամսաթիվը պետք է լինի մեկնարկից հետո:
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

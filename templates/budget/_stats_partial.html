@@ -1,0 +1,64 @@
+<div class="animate__animated animate__fadeIn">
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-secondary bg-opacity-25 p-3 rounded-circle me-3">
+                        <i class="bi bi-wallet2 fs-4"></i>
+                    </div>
+                    <div>
+                        <small class="text-secondary text-uppercase fw-bold d-block mb-1">Ընդհանուր բյուջե</small>
+                        <h3 class="mb-0 fw-bold">{{ total_planned | money(budget.currency) }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white animate__animated animate__pulse">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-25 p-3 rounded-circle me-3">
+                        <i class="bi bi-cash-stack fs-4 text-primary"></i>
+                    </div>
+                    <div>
+                        <small class="text-secondary text-uppercase fw-bold d-block mb-1">Իրական ծախս</small>
+                        <h3 class="mb-0 fw-bold">{{ total_actual | money(budget.currency) }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 {{ 'bg-success' if remaining >= 0 else 'bg-danger' }} text-white animate__animated animate__bounceIn">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-white bg-opacity-25 p-3 rounded-circle me-3">
+                        <i class="bi {{ 'bi-check-lg' if remaining >= 0 else 'bi-exclamation-triangle' }} fs-4"></i>
+                    </div>
+                    <div>
+                        <small class="text-white text-opacity-75 text-uppercase fw-bold d-block mb-1">Մնացած</small>
+                        <h3 class="mb-0 fw-bold">{{ remaining | money(budget.currency) }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 bg-dark">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-light fw-bold">Բյուջեի օգտագործում</span>
+            <span class="badge {{ 'bg-success' if percent <= 100 else 'bg-danger' }}">{{ percent }}%</span>
+        </div>
+        <div class="progress" style="height: 12px; background-color: rgba(255,255,255,0.1);">
+            <div class="progress-bar progress-bar-striped progress-bar-animated {{ 'bg-primary' if percent <= 100 else 'bg-danger' }}" 
+                role="progressbar" 
+                style="width: {{ percent if percent <= 100 else 100 }}%" 
+                aria-valuenow="{{ percent }}" 
+                aria-valuemin="0" 
+                aria-valuemax="100">
+            </div>
+        </div>
+        {% if percent > 100 %}
+        <small class="text-danger mt-2"><i class="bi bi-info-circle me-1"></i> Դուք գերազանցել եք ձեր պլանավորված բյուջեն {{ (total_actual - total_planned) | money(budget.currency) }}!</small>
+        {% endif %}
+    </div>
+</div>

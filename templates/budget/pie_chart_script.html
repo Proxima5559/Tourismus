@@ -1,0 +1,188 @@
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+if (!window.pieChart) {
+    window.pieChart = null;
+}
+
+
+// document.body.addEventListener("htmx:afterOnLoad", function (event) {
+
+//     if (!event.detail.xhr.responseURL.includes("category-stats")) return;
+
+   
+//     loadChartData(event.detail.xhr.responseText);
+// });
+
+document.body.addEventListener("htmx:afterOnLoad", function (event) {
+    // Only run if the request was specifically for the category stats
+    if (event.detail.xhr.responseURL.includes("category-stats")) {
+        loadChartData(event.detail.xhr.responseText);
+    }
+});
+
+
+function loadChartData(jsonText) {
+    if (!jsonText || jsonText === "undefined" || jsonText === "") {
+        console.warn("No chart data received. Skipping update.");
+        return; 
+    }
+    try {
+        const data = JSON.parse(jsonText);
+        const wrapper = document.getElementById("chart-wrapper");
+        const showBtn = document.getElementById("show-chart-btn");
+        const hideBtn = document.getElementById("hide-chart-btn");
+
+        // If no data exists, hide the chart and buttons
+        if (!data.values || data.values.length === 0) {
+            hideChart(); 
+            return;
+        }
+
+        // Show the wrapper with a smooth transition
+        wrapper.style.display = "block";
+        
+        
+        const canvas = document.getElementById("categoryPieChart");
+        
+        // --- COOLER CHART STYLE: Doughnut ---
+        if (window.pieChart) {
+            window.pieChart.destroy(); // Clear old chart to redraw slices
+        }
+
+        window.pieChart = new Chart(canvas, {
+            type: "doughnut", 
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: [
+                        "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b", "#10b981"
+                    ],
+                    hoverOffset: 20,
+                    borderWidth: 3,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                cutout: '70%', // Modern "Ring" look
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+
+        showBtn.style.display = "none";
+        hideBtn.style.display = "inline-block";
+    
+    } catch (error) {
+        console.error("Failed to parse chart JSON:", error)
+    }
+    
+}
+
+
+function hideChart() {
+    const wrapper = document.getElementById("chart-wrapper");
+    const showBtn = document.getElementById("show-chart-btn");
+    const hideBtn = document.getElementById("hide-chart-btn");
+
+    wrapper.style.display = "none";
+
+    if (wrapper) wrapper.style.display = "none";
+    if (window.pieChart) {
+        window.pieChart.destroy();
+        window.pieChart = null;
+    }
+
+    if (showBtn) showBtn.style.display = "inline-block";
+    if (hideBtn) hideBtn.style.display = "none";
+}
+
+
+document.addEventListener('htmx:afterSwap', function(event) {
+   
+    if (event.detail.target.id === 'expenses_innerPart') {
+        const chartWrapper = document.getElementById('chart-wrapper');
+        const showBtn = document.getElementById('show-chart-btn');
+        const hideBtn = document.getElementById('hide-chart-btn');
+        
+        
+        if (chartWrapper && chartWrapper.style.display !== 'none') {
+            if (window.pieChart) {
+                window.pieChart.destroy();
+                window.pieChart = null;
+            }
+
+            
+            chartWrapper.style.display = 'none';
+            showBtn.style.display = 'inline-block';
+            hideBtn.style.display = 'none';
+            
+            setTimeout(() => {
+                showBtn.click(); 
+            }, 100); 
+        }
+    }
+});
+hx-on::after-request="if(event.detail.successful) { loadChartData(); }"
+
+
+<button id="show-chart-btn"
+                class="btn btn-primary"
+                hx-get="{{ url_for('budget.category_stats', budget_id=budget.id) }}"
+                hx-trigger="click, refreshChart from:body" 
+                hx-target="#chart-wrapper"
+                hx-swap="none">
+            Show Chart 📊
+        </button>
+        <button 
+            id="hide-chart-btn"
+            class="btn btn-danger"
+            style="display:none;"
+            onclick="hideChart()"
+        >
+            Hide Chart
+        </button>
+
+
+    div id="chart-wrapper" style="display:none; margin:20px auto 0 auto; width: 50%; max-width: 500px;">
+        <canvas id="categoryPieChart" width="400" height="400"></canvas>
+    </div>
+
+
+    {% include 'budget/pie_chart_script.html' %}
+
+
+
+
+ <script>
+function filterCountries() {
+    // 1. Get the text from the search box
+    const input = document.getElementById('countrySearch').value.toLowerCase();
+    
+    // 2. Get all elements with the class 'country-card'
+    const cards = document.getElementsByClassName('country-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        // 3. Find the country name inside this specific card
+        const nameElement = cards[i].querySelector('.country-name');
+        
+        if (nameElement) {
+            const countryName = nameElement.innerText.toLowerCase();
+            
+            // 4. Toggle visibility: if name matches search, show; else, hide.
+            if (countryName.includes(input)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+}
+</script> -->

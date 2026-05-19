@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+{% from 'macros/header_macros.html' import render_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_dash.css') }}">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            {{ render_header(
+                    title="Visa-Free Travel Map",
+                    subtitle="Select a citizenship to see where you can travel without a visa in 2026.",
+                    title_icon="earth",
+                    accent_icon="earth"
+                ) }}
+        
+            <div class="card shadow-sm p-4 mb-5 bg-dark border-0">
+                <div class="row g-3 justify-content-center align-items-end">
+                    <div class="col-md-5 text-start">
+                        <label for="countrySelect" class="form-label small fw-bold text-secondary text-uppercase">Your Citizenship:</label>
+                        <select name="country_code" id="countrySelect" class="form-select form-select-lg">
+                            <option value="RU">Russia</option>
+                            <option value="AM">Armenia</option>
+                            <option value="GE">Georgia</option>
+                            <option value="US">USA</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        {{ ui_element(
+                            text="Show Map",
+                            variant="primary",
+                            extra_classes="btn-lg w-100 bg-gold",
+                            hx_post=url_for('visa.get_map'),
+                            hx_target="#map-result",
+                            hx_include="#countrySelect",
+                            hx_indicator="#loading-spinner",
+                            icon="map"
+                        ) }}
+                    </div>
+                </div>
+
+                
+
+                <div id="loading-spinner" class="htmx-indicator mt-3">
+                    <div class="spinner-border spinner-border-sm text-primary " role="status"></div>
+                    <span class="ms-2 text-light">Fetching data from API...</span>
+                </div>
+            </div>
+
+            <div id="map-result" class="border rounded shadow-sm bg-dark p-2" style="min-height: 500px;">
+                <div class="py-5 text-muted">
+                    <p class="mt-3">The interactive map will be rendered here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .htmx-indicator { 
+        display: none; 
+        opacity: 0;
+        transition: opacity 200ms ease-in;
+    }
+    .htmx-request.btn { opacity: 0.8; pointer-events: none; }
+
+
+.htmx-request .htmx-indicator, 
+.htmx-request.htmx-indicator {
+    display: inline-block !important;
+    opacity: 1;
+}
+</style>
+{% endblock %}

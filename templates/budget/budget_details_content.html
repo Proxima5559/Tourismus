@@ -1,0 +1,31 @@
+{% from 'macros/btn.html' import ui_element with context %}
+<div id="budget-details" class="container mt-4">
+    {% include 'budget/budget_info.html' %}
+    {% include 'budget/category_limits.html' %}
+    <div id="error-container"></div>
+
+    <div id="expenses_innerPart">
+        {% include "budget/expenses_table.html" %}
+    </div>
+
+    <div id="pdf-section-wrapper">
+        {% if expenses|length > 0 %}
+            {% include 'budget/pdf/pdf.html' %}
+        {% endif %}
+    </div>
+    {% include 'budget/scripts.html' %}
+</div>
+{% include 'budget/add_expense_form.html' %}
+{% include 'budget/add_limit_form.html' %}
+
+
+   <!-- <div id="chart-buttons" class="mb-4">
+    {{ ui_element(
+        text="Ներբեռնել PDF",
+        href=url_for('budget.download_budget_pdf', slug=budget.slug),
+        variant="outline-secondary",
+        extra_classes="btn-sm rounded-pill px-4 shadow-sm download-btn",
+        download=True
+    ) }}
+    </div>
+     -->

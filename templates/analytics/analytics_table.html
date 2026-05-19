@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add_an_dt/add_an_dt.css') }}">
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header dark d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold" style="font-size: 14px;">
+                    <i class="bi bi-graph-up me-2"></i>Spending Analytics
+                </h5>
+                <span class="badge bg-light text-dark rounded-pill">
+                    <i class="bi bi-currency-dollar me-1"></i>{{ budget.currency }}
+                </span>
+            </div>
+            <div class="card-body p-4 pt-2">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-white-50">
+                        <thead>
+                            <tr style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                <th class="border-0 text-muted">Metric</th>
+                                <th class="border-0 text-muted">Value</th>
+                                <th class="border-0 text-muted">Insight</th>
+                                <th class="border-0 text-muted">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-semibold text-white">
+                                    <i class="bi bi-pie-chart me-2 text-primary"></i>Total Budget
+                                </td>
+                                <td class="fw-bold text-white">{{ budget.amount | money(budget.currency) }}</td>
+                                <td class="text-muted small">Original allocated amount</td>
+                                <td>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                                        💰 Total
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold text-white">
+                                    <i class="bi bi-receipt me-2 text-danger"></i>Total Spent
+                                </td>
+                                <td class="fw-bold text-danger">{{ total_spent | money(budget.currency) }}</td>
+                                <td class="text-muted small">{{ "%.1f"|format((total_spent/budget.amount)*100) if budget.amount > 0 else 0 }}% used</td>
+                                <td>
+                                    {% set spend_percent = (total_spent/budget.amount)*100 if budget.amount > 0 else 0 %}
+                                    {% if spend_percent < 50 %}
+                                        <span class="variance-badge-pos"><i class="bi bi-emoji-smile me-1"></i>Healthy</span>
+                                    {% elif spend_percent < 80 %}
+                                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill"><i class="bi bi-emoji-neutral me-1"></i>Moderate</span>
+                                    {% else %}
+                                        <span class="variance-badge-neg"><i class="bi bi-emoji-frown me-1"></i>Critical</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold text-white">
+                                    <i class="bi bi-wallet2 me-2 text-success"></i>Remaining
+                                </td>
+                                <td class="fw-bold text-success">{{ (budget.amount - total_spent) | money(budget.currency) }}</td>
+                                <td class="text-muted small">
+                                    {% set remaining = budget.amount - total_spent %}
+                                    {% if days_left_budget > 0 %}
+                                        ~{{ (remaining / days_left_budget) | money(budget.currency) }}/day left
+                                    {% else %}
+                                        Budget period ended
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; width: 100px; background: rgba(255,255,255,0.08);">
+                                        <div class="progress-bar bg-success" role="progressbar" 
+                                            style="width: {{ [((budget.amount - total_spent)/budget.amount)*100, 100]|min if budget.amount > 0 else 0 }}%">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold text-white">
+                                    <i class="bi bi-speedometer2 me-2 text-info"></i>Daily Average
+                                </td>
+                                <td class="fw-bold text-white">{{ avg_daily_spend | money(budget.currency) }}</td>
+                                <td class="text-muted small">Spent per day on average</td>
+                                <td>
+                                    <span class="badge bg-info bg-opacity-10 text-info rounded-pill">
+                                        <i class="bi bi-clock me-1"></i>{{ (avg_daily_spend * 30) | money(budget.currency) }}/mo
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semibold text-white">
+                                    <i class="bi bi-calendar-range me-2 text-warning"></i>Days Left
+                                </td>
+                                <td class="fw-bold text-white">{{ days_left_budget }} days</td>
+                                <td class="text-muted small">
+                                    {% if days_left_budget > 0 %}
+                                        Until {{ budget.end_date | smart_date('medium') }}
+                                    {% else %}
+                                        Budget period expired
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if days_left_budget > 30 %}
+                                        <span class="variance-badge-pos">{{ days_left_budget }}d remaining</span>
+                                    {% elif days_left_budget > 7 %}
+                                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill">{{ days_left_budget }}d remaining</span>
+                                    {% else %}
+                                        <span class="variance-badge-neg">{{ days_left_budget }}d remaining</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

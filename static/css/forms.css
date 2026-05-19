@@ -1,0 +1,115 @@
+:root {
+    --bg-card: #1c1c1e;
+    --bg-card-2: #2c2c2e;
+    --primary-color: #d9a406;
+    --primary-border: #f9d423;
+    --text-main: #e4e6eb;
+}
+
+/* CARD */
+.card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* HEADERS */
+.card-header {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+}
+
+.card-header.gold {
+    background: linear-gradient(135deg, var(--primary-border), var(--primary-color));
+    color: #1a1200;
+}
+
+.card-header.dark {
+    background: var(--bg-card-2);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: var(--primary-color);
+}
+
+.card-header.teal {
+    background: #0d3d4f;
+    color: #5ecfef;
+    border-bottom: 1px solid rgba(94,207,239,0.15);
+}
+
+/* STATS BOX */
+.stats-box {
+    background: var(--bg-card-2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.2s ease;
+}
+
+.stats-box:hover {
+    transform: translateX(5px);
+    border-color: rgba(217,164,6,0.3);
+}
+
+/* FORM CONTROLS */
+.form-control,
+.form-select,
+.form-control-lg {
+    background: var(--bg-card-2) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: var(--text-main) !important;
+    border-radius: 10px !important;
+}
+
+/* normal */
+.form-control {
+    padding: 10px 15px;
+}
+
+/* large */
+.form-control-lg {
+    padding: 15px 20px !important;
+    font-size: 1rem !important;
+}
+
+.form-control:focus,
+.form-control-lg:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(217,164,6,0.12) !important;
+}
+
+/* BUTTON */
+.btn-gold {
+    background: linear-gradient(135deg, var(--primary-border), var(--primary-color));
+    color: #1a1200;
+    border: none;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* EXTRA UTILITIES */
+.impact-cell {
+    background: var(--bg-card-2);
+    border-radius: 9px;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.hover-opacity-100:hover {
+    opacity: 1 !important;
+}
+
+.stats-box.border-warning {
+    border-left: 4px solid var(--primary-color) !important;
+    background: rgba(217,164,6,0.05);
+}

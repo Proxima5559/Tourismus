@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ country_name }} - Տեղեկատվություն{% endblock %}
+{% from 'macros/nav_macros.html' import back_nav %}
+{% from 'macros/btn.html' import ui_element %}
+
+{% block content %}
+
+<style>
+.card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06) !important; border-radius: 14px; }
+.card-header-bar { padding: 12px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 8px; }
+.info-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+.info-row:last-child { border-bottom: none; }
+.info-key { color: #7a8290; font-weight: 500; flex-shrink: 0; margin-right: 12px; }
+.city-btn { background: var(--bg-card-2); border: 1px solid rgba(255,255,255,0.06); border-radius: 9px; padding: 8px 10px; font-size: 12px; font-weight: 600; color: #e4e6eb; cursor: pointer; text-align: center; transition: border-color 0.15s; width: 100%; }
+.city-btn:hover { border-color: rgba(217,164,6,0.4); color: var(--primary-color); }
+.progress-wrap { background: rgba(255,255,255,0.06); border-radius: 6px; height: 6px; overflow: hidden; margin-bottom: 12px; }
+.progress-fill { height: 100%; border-radius: 6px; }
+.emerg-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+.emerg-row:last-child { border-bottom: none; }
+.pill { border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; display: inline-block; }
+.section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5e6570; }
+</style>
+
+{{ back_nav(
+    back_url=url_for('places_dashboard.places_dashboard'),
+    back_text="Գլխավոր",
+    current_page=country_name
+) }}
+
+<div class="d-flex align-items-center gap-4 mb-4">
+    <img src="{{ flag_url }}" alt="{{ country_name }} flag"
+         style="width:72px; height:48px; object-fit:cover; border-radius:8px; border: 1px solid rgba(255,255,255,0.1);">
+    <div>
+        <h1 class="fw-bold mb-1" style="font-size:28px;">{{ country_name }}</h1>
+        <div class="text-muted" style="font-size:13px;">
+            <i class="bi bi-geo-alt me-1"></i>{{ continent_hy }}
+            <span class="mx-2" style="color:var(--primary-color);">·</span>
+            {{ dialing_code }}
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header-bar" style="color: var(--primary-color);">
+                <i class="bi bi-info-circle"></i> Հիմնական տվյալներ
+            </div>
+            <div class="p-3">
+                <div class="info-row">
+                    <span class="info-key">Մայրաքաղաք</span>
+                    <span>{{ capital }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Լեզուներ</span>
+                    <span class="d-flex flex-wrap gap-1 justify-content-end">
+                        {% for lang in languages %}
+                            <span class="pill" style="background:rgba(217,164,6,0.1); color:var(--primary-color); border:1px solid rgba(217,164,6,0.2);">{{ lang }}</span>
+                        {% else %}
+                            <span class="text-muted">Տվյալը առկա չէ</span>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Հարևաններ</span>
+                    <span class="d-flex flex-wrap gap-1 justify-content-end">
+                        {% for neighbor in neighbors %}
+                            <span class="pill" style="background:rgba(91,155,213,0.1); color:#5b9bd5; border:1px solid rgba(91,155,213,0.2);">{{ neighbor }}</span>
+                        {% else %}
+                            <span class="text-muted">Ցամաքային սահմաններ չունի</span>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Հեռ. կոդ</span>
+                    <span>{{ dialing_code }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Անվտանգություն</span>
+                     {% if safety_rate %}
+                        {% if safety_rate >= 2.5 %}
+                            <span class="text-danger">Բարձր ռիսկ</span>
+                        {% else %}
+                            <span class="text-success">Ապահով</span>
+                        {% endif %}
+                        {% else %}
+                            <p>Անվտանգության տվյալներ առկա չեն</p>
+                     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header-bar" style="color: #5b9bd5;">
+                <i class="bi bi-bar-chart"></i> Վիճակագրություն
+            </div>
+            <div class="p-3">
+                <div class="info-row">
+                    <span class="info-key">Բնակչություն</span>
+                    <span>{{ "{:,}".format(population) if population != 'N/A' else 'N/A' }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Տարածք</span>
+                    <span>{{ "{:,}".format(area) if area != 'N/A' else 'N/A' }} կմ²</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Մայրցամաք</span>
+                    <span>{{ continent_hy }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Արժույթ</span>
+                    <span>
+                        {% for currency in currencies %}{{ currency }}{% if not loop.last %}, {% endif %}{% else %}N/A{% endfor %}
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Ժամային գոտի</span>
+                    <span class="text-end">
+                        {% for tz in timezones[:2] %}{{ tz }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+                        {% if timezones|length > 2 %}
+                            <span class="text-muted" style="font-size:11px;">+ {{ timezones|length - 2 }} այլ</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header-bar" style="color: var(--primary-color);">
+        <i class="bi bi-building"></i> Խոշոր քաղաքներ
+    </div>
+    <div class="p-3">
+        <div class="row g-2">
+            {% for city in major_cities %}
+                <div class="col-6 col-md-2">
+                    <button class="city-btn" onclick="viewOnMap('{{ city.hy }}', '{{ city.map_link }}')">
+                        <i class="bi bi-geo-alt me-1" style="font-size:11px;"></i>{{ city.hy }}
+                    </button>
+                </div>
+            {% else %}
+                <div class="col-12"><p class="text-muted mb-0">Տվյալը առկա չէ</p></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include "places_dashboard/country_page/adt_details.html" %}
+
+
+ <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('places_dashboard.places_dashboard') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Վերադառնալ ցանկին
+                </a>
+            </div>
+        </div>
+    </div>
+{% include "places_dashboard/country_page/town_details.html" %}
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plans_dash.css') }}">
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">{{ plan.date.strftime('%B %d, %Y') }}</h2>
+            <div class="text-muted mt-1">
+                <i class="bi bi-airplane-engines me-1"></i>
+                <span>{{ plan.budget.name }}</span>
+            </div>
+        </div>
+        {{ ui_element(
+            text="Plan Dashboard",
+            icon="arrow-left",
+            href=url_for('plans_dash.index'),
+            variant="outline-secondary",
+            extra_classes="btn-sm rounded-pill px-4",
+            hx_boost="true"
+        ) }}
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card p-4 sticky-top" style="top: 2rem;">
+                <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Build Schedule</h5>
+
+                <form hx-post="{{ url_for('plans_dash.add_item', slug=plan.slug) }}"
+                      hx-target="#task-lists"
+                      hx-swap="none"
+                      hx-on::after-request="this.reset(); this.querySelector('[name=description]').focus();">
+                    <div class="mb-3">
+                        <label class="form-label section-header text-muted">Add Task</label>
+                        <div class="input-group">
+                            <input type="text" name="description" class="form-control" placeholder="Go to the sea..." required autofocus>
+                            {{ ui_element(
+                                text="Next",
+                                type="submit",
+                                variant="success",
+                                extra_classes="px-4 fw-bold",
+                            ) }}
+                        </div>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" name="is_mandatory" id="flexSwitchCheckDefault" checked>
+                        <label class="form-check-label text-muted" for="flexSwitchCheckDefault">Mark as Mandatory</label>
+                    </div>
+                </form>
+
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.06);">
+
+                <div>
+                    <label class="form-label section-header text-muted d-block mb-2">Trip Tags</label>
+                    <div id="tags-container" class="mb-3">
+                        {% include "plans_dash/_tags_partial.html" %}
+                    </div>
+                    <form hx-post="{{ url_for('plans_dash.add_tag', slug=plan.slug) }}"
+                          hx-target="#tags-container"
+                          hx-on::after-request="this.reset()">
+                        <input type="text" name="tag_name" class="form-control form-control-sm rounded-pill" placeholder="Add tag + Enter">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card p-4">
+                <div id="task-lists">
+                    <div class="mb-5">
+                        <h6 class="section-header mb-3" style="color: #ff6b6b;">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Mandatory Tasks
+                        </h6>
+                        <div id="mandatory-list" class="list-group list-group-flush">
+                            {% for item in mandatory %}
+                                {% include "plans_dash/_task_item_partial.html" %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h6 class="section-header text-muted mb-3">
+                            <i class="bi bi-list-stars me-2"></i>Secondary Tasks
+                        </h6>
+                        <div id="secondary-list" class="list-group list-group-flush">
+                            {% for item in secondary %}
+                                {% include "plans_dash/_task_item_partial.html" %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

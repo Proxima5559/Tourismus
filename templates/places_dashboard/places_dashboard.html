@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Tier Lists - Places Dashboard{% endblock %}
+
+{% block content %}
+{% from 'macros/header_macros.html' import render_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_dash.css') }}">
+    {{ render_header(
+        title="Երկրների Tier Lists",
+        subtitle="Դասակարգում ըստ տարբեր մակարդակների",
+        title_icon="earth",
+        accent_icon="earth"
+    ) }}
+        
+    {% include "places_dashboard/eco.html" %}
+    <hr class="border-secondary">
+    {% include "places_dashboard/gastro.html" %}
+    <hr class="border-secondary">
+    {% include "places_dashboard/historic.html" %}
+    <hr class="border-secondary">
+    {% include "places_dashboard/the_safest.html" %}
+    <hr class="border-secondary">
+    <div hx-get="{{ url_for('places_dashboard.get_dangerous') }}" hx-trigger="revealed" hx-swap="outerHTML">
+        <div class="loader">Loading Dangerous...</div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-dark text-white border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Tier List բացատրություն
+                    </h5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-success me-2">Tier S</span>
+                                Ամենաապահով երկրներ - իդեալական զբոսաշրջության համար
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-danger me-2">Tier D</span>
+                                Վտանգավոր երկրներ - խորհուրդ չի տրվում այցելել
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-info me-2">Tier A</span>
+                                Էկոլոգիապես մաքուր երկրներ - բնության սիրահարների համար
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-warning me-2">Tier B</span>
+                                Գաստրոնոմիկ երկրներ - սննդի սիրահարների համար
+                            </p>
+                        </div> 
+                        <div class="col-md-6">
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-primary me-2">Tier C</span>
+                                Պատմական երկրներ - պատմության սիրահարների համար
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4) !important;
+    background-color: #2b2e31 !important; 
+}
+
+.custom-card-link .country-label {
+    color: #e0e0e0;
+    transition: color 0.2s ease;
+}
+
+.custom-card-link:hover .country-label {
+    color: #ffffff;
+}
+
+.border-success { border-color: #198754 !important; }
+.border-warning { border-color: #ffc107 !important; }
+.border-info { border-color: #0dcaf0 !important; }
+.border-danger { border-color: #dc3545 !important; }
+.border-primary { border-color: #0d6efd !important; }
+</style>
+{% endblock %}

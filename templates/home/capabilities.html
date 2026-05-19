@@ -1,0 +1,31 @@
+<section class="py-5 py-lg-6 section-tint">
+  <div class="container">
+    <div class="row align-items-end mb-5 g-4">
+      <div class="col-lg-7 reveal" _="install ScrollReveal">
+        <span class="eyebrow mb-3 d-inline-flex">Հնարավորություններ</span>
+        <h2 class="section-heading mt-2">
+         Ստեղծված է իրական ճանապարհորդության ,<br>
+          <span class="text-faded">ոչ միայն ոգեշնչում համար:</span>
+        </h2>
+      </div>
+      <div class="col-lg-5 reveal reveal-d1" _="install ScrollReveal">
+        <p style="font-size:14px;line-height:1.9;color:rgba(228,230,235,.5);max-width:340px">
+         Բավականին գործնական է ամենօրյա օգտագործման համար։ Բավականին մանրամասն՝ երկարաժամկետ ճանապարհորդության պլանավորման համար։
+        </p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      {% from 'constants.html' import caps %}
+      {% for ico, title, text in caps %}
+      <div class="col-sm-6 col-xl-4 reveal reveal-d{{ loop.index % 4 }}" _="install ScrollReveal">
+        <div class="cap-card">
+          <div class="cap-icon">{{ icon(ico, height=16, width=16) }}</div>
+          <div class="fw-bold mb-2" style="font-size:1.05rem">{{ title }}</div>
+          <p style="font-size:13px;line-height:1.8;color:rgba(228,230,235,.5);margin:0">{{ text }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

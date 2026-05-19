@@ -1,0 +1,44 @@
+[project]
+name = "my-final"
+version = "0.1.0"
+
+description = ""
+authors = [
+    {name = "Davit"}
+]
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "lucide[jinja] (>=1.1.3,<2.0.0)",
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "flask-login (>=0.6.3,<0.7.0)",
+    "flask-wtf (>=1.2.2,<2.0.0)",
+    "fpdf2 (>=2.8.7,<3.0.0)",
+    "wtforms (>=3.2.1,<4.0.0)",
+    "sqlalchemy (>=2.0.48,<3.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "flask-migrate (>=4.1.0,<5.0.0)",
+    "flask-babel (>=4.0.0,<5.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "flask-caching (>=2.3.1,<3.0.0)",
+    "python-slugify (>=8.0.4,<9.0.0)",
+    "email-validator (>=2.3.0,<3.0.0)",
+    "flask-mail (>=0.10.0,<0.11.0)",
+    "itsdangerous (>=2.2.0,<3.0.0)",
+    "flask-limiter (>=4.1.1,<5.0.0)",
+    "cloudinary (>=1.44.1,<2.0.0)",
+    "requests (>=2.33.1,<3.0.0)",
+    "flask-admin (>=2.2.0,<3.0.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.15.8,<0.16.0)",
+    "bandit (>=1.9.4,<2.0.0)"
+]

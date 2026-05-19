@@ -1,0 +1,158 @@
+
+<div class="pdf-reconciliation-card mt-5 mb-5">
+        <div class="pdf-blur-layer">
+            <div class="pdf-skeleton-line" style="width:52%; height:16px; margin-bottom:6px; background: #2c3e50;"></div>
+            <div class="pdf-skeleton-line" style="width:38%; background:#999; height:8px; margin-bottom:12px;"></div>
+            <hr style="border-color:#ccc; margin:10px 0; opacity: 0.3;">
+
+            <div class="pdf-fake-summary d-flex gap-3 mb-3">
+                <span style="width:80px; height:25px; background: #ebf5ff; border-radius: 4px;"></span>
+                <span style="width:100px; height:25px; background: #ebf5ff; border-radius: 4px;"></span>
+                <span style="width:90px; height:25px; background: #ebf5ff; border-radius: 4px;"></span>
+            </div>
+
+            <div class="pdf-skeleton-line" style="width:30%; height:10px; margin: 14px 0 8px; background: #2c3e50;"></div>
+
+            <table class="pdf-fake-table w-100 mb-3">
+                <thead>
+                    <tr style="background: #c8dcf0;"><th colspan="3" style="height:12px;"></th></tr>
+                </thead>
+                <tbody>
+                    {% for i in range(3) %}
+                    <tr>
+                        <td><span class="fv" style="width:60%;"></span></td>
+                        <td><span class="fv" style="width:40%;"></span></td>
+                        <td><span class="fv" style="width:80%;"></span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="pdf-skeleton-line" style="width:45%; height:10px; margin: 14px 0 8px; background: #2c3e50;"></div>
+
+            <table class="pdf-fake-table w-100">
+                <thead style="background: #2c3e50;">
+                    <tr><th colspan="5" style="height:12px;"></th></tr>
+                </thead>
+                <tbody>
+                    {% for i in range(4) %}
+                    <tr>
+                        <td><span class="fv" style="width:70%;"></span></td>
+                        <td><span class="fv" style="width:50%;"></span></td>
+                        <td><span class="fv" style="width:40%;"></span></td>
+                        <td><span class="fv" style="width:40%;"></span></td>
+                        <td><span class="fv" style="width:60%; background: #007800; opacity: 0.5;"></span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pdf-overlay text-center">
+            <div class="pdf-overlay-icon mb-2">
+                <i class="fas fa-file-pdf" style="font-size:32px; color: var(--primary-color);">{{icon('file')}}</i>
+            </div>
+            <div class="pdf-overlay-title fw-bold text-white fs-5">Բյուջեի հաշվետվություն</div>
+            <div class="pdf-overlay-sub text-muted small mb-4">
+                Լրիվ հետազոտություն - պլանավորված vs իրական - կատեգորիայի ամփոփագրումներով:
+            </div>
+            
+            <a href="{{ url_for('budget.download_budget_pdf', slug=budget.slug) }}"
+            class="btn-gold-action" download>
+                <i class="fas fa-download me-2"></i> Ներբեռնել PDF
+            </a>
+        </div>
+    </div>
+
+<style>
+.pdf-reconciliation-card {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    padding: 2rem;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-blur-layer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    filter: blur(4px) grayscale(0.5);
+    opacity: 0.25;
+    user-select: none;
+    pointer-events: none;
+}
+
+.pdf-skeleton-line {
+    border-radius: 4px;
+    display: block;
+}
+
+.pdf-fake-table {
+    border-collapse: separate;
+    border-spacing: 4px;
+}
+
+.pdf-fake-table td {
+    height: 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 2px;
+    padding: 4px;
+}
+
+.fv {
+    height: 6px;
+    display: block;
+    background: #666;
+    border-radius: 2px;
+}
+
+.pdf-overlay {
+    position: relative;
+    z-index: 5;
+    max-width: 400px;
+}
+
+.pdf-overlay-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(217, 164, 6, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    border: 1px solid rgba(217, 164, 6, 0.2);
+}
+
+.btn-gold-action {
+    display: inline-block;
+    padding: 12px 35px;
+    background: linear-gradient(135deg, var(--primary-border), var(--primary-color));
+    color: #1a1200 !important;
+    text-decoration: none;
+    font-weight: 800;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.btn-gold-action:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 25px rgba(217, 164, 6, 0.4);
+}
+
+.pdf-overlay-sub {
+    letter-spacing: 0.5px;
+}
+</style>

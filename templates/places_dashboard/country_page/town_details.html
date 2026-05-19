@@ -1,0 +1,15 @@
+<script>
+function viewOnMap(cityHy, mapLink) {
+    Swal.fire({
+        title: cityHy,
+        html: `
+            <div style="background-color: black; border-radius: 8px; overflow: hidden; border: 1px solid #ddd;">
+                <iframe width="100%" height="250" src="${mapLink}" frameborder="0"></iframe>
+            </div>`,
+        width: '500px',
+        background: 'black',
+        confirmButtonText: 'Փակել',
+        confirmButtonColor: '#0dcaf0'
+    });
+}
+</script>

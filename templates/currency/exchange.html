@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/currency.css') }}">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="bg-custom-gold py-2"></div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="display-6 mb-2">💱</div>
+                        <h2 class="h4 fw-bold">Արժույթի Փոխարինում</h2>
+                        <p class="text-muted small">Փոխարինել ձեր արժույթները հեշտ և արագ</p>
+                    </div>
+                    <div id="loading-spinner" class="htmx-indicator d-flex justify-content-center mb-3">
+                        <div class="spinner-border text-gold" 
+                            style="width: 3rem; height: 3rem; border-width: 0.25em;" 
+                            role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <form id="exchange-form" 
+                          hx-post="{{ url_for('currency.exchange') }}" 
+                          hx-target="#result-container" 
+                          hx-indicator="#loading-spinner"
+                          hx-swap="outerHTML">
+                        
+                      <div class="mb-4">
+                        <label class="form-label small fw-bold text-uppercase tracking-wider text-muted">
+                            Գումար փոխարինելու համար
+                        </label>
+
+                        <div class="input-group input-group-lg shadow-sm align-items-stretch">
+                            <span class="input-group-text bg-gold text-white border-0">
+                                {{ icon('circle-dollar-sign') }}
+                            </span>
+
+                            <input type="number" step="0.01" name="amount" id="amount-input"
+                                class="form-control border-0"
+                                placeholder="0.00" required>
+
+                           {{ ui_element(
+                                text=icon('x'),
+                                variant="gold",
+                                hyperscript="
+                                    on click
+                                        set #amount-input.value to ''
+                                ",
+                                extra_classes="p-2 text-white border-0 rounded-end text-dark cursor-pointer"
+                            ) }}
+                        </div>
+                    </div>
+
+                        <div class="position-relative mb-4">
+                            <div class="row g-2">
+                                <div class="col-12 mb-2">
+                                    <label class="form-label small fw-bold text-muted">From</label>
+                                    <select name="from_currency" id="from-currency" class="form-select form-select-lg shadow-sm" required>
+                                        {% for code, name in currencies.items() %}
+                                        <option value="{{ code }}" {% if request.form.get('from_currency') == code %}selected{% endif %}>
+                                            {{ code }} — {{ name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="text-center my-n2 z-3">
+                                    <button type="button" 
+                                            class="btn btn-grey shadow-sm border rounded-circle swap-btn" 
+                                            title="Swap Currencies"
+                                            _="on click 
+                                            set temp to #from-currency.value 
+                                            set #from-currency.value to #to-currency.value 
+                                            set #to-currency.value to temp">
+                                        <i class="bi bi-arrow-down-up text-gold">{{ icon('arrow-right-left') }}</i>
+                                    </button>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-muted">To</label>
+                                    <select name="to_currency" id="to-currency" class="form-select form-select-lg shadow-sm" required>
+                                        {% for code, name in currencies.items() %}
+                                        <option value="{{ code }}" {% if request.form.get('to_currency') == code or (not request.form.get('to_currency') and code == 'EUR') %}selected{% endif %}>
+                                            {{ code }} — {{ name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ ui_element(
+                            text="Փոխարինել",
+                            variant="gold",
+                            type="submit",
+                            extra_classes="btn-lg w-100 rounded-3 shadow py-3",
+                            show_spinner=True
+                        ) }}
+                    </form>
+                    
+                    {% include "currency/exchange_result.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
