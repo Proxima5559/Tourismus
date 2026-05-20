@@ -1,30 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
+{% from 'macros/btn.html' import ui_element with context %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 
-<div class="container mt-4">
-    <div class="row">
+<div class="container py-5">
+    <div class="row g-4">
+        
         <div class="col-md-4">
-            <div class="card shadow-sm p-4 mb-4 text-center profile-card">
+            <div class="card p-4 text-center profile-card shadow">
                 <div class="mb-3">
-                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 80px; height: 80px;">
-                        <i data-lucide="user" size="40" class="text-muted"></i>
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" 
+                         style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <i data-lucide="user" size="36" style="color: #e4e6eb;"></i>
                     </div>
                 </div>
-                <h3 class="fw-bold">{{ user.username }}</h3>
-                <p class="text-muted small">{{ user.email }}</p>
-                <hr>
+                
+                <h3 class="fw-bold mb-1" style="color: #e4e6eb;">{{ user.username }}</h3>
+                <p class="text-muted small mb-4">{{ user.email }}</p>
+                
+                <hr style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                
                 <div class="row g-2">
                     <div class="col-6">
-                        <div class="p-2 border rounded bg-dark">
-                            <small class="text-muted d-block">Budgets</small>
-                            <span class="fw-bold fs-5">{{ total_budgets }}</span>
+                        <div class="p-3 border rounded stat-card" style="background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05) !important;">
+                            <small class="text-muted d-block uppercase-label mb-1">Budgets</small>
+                            <span class="fw-bold fs-4" style="color: var(--primary-color);">{{ total_budgets }}</span>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-2 border rounded bg-dark">
-                            <small class="text-muted d-block">Daily Plans</small>
-                            <span class="fw-bold fs-5">{{ total_plans }}</span>
+                        <div class="p-3 border rounded stat-card" style="background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05) !important;">
+                            <small class="text-muted d-block uppercase-label mb-1">Daily Plans</small>
+                            <span class="fw-bold fs-4" style="color: var(--primary-color);">{{ total_plans }}</span>
                         </div>
                     </div>
                 </div>
@@ -32,29 +38,66 @@
         </div>
 
         <div class="col-md-8">
-            <div class="card shadow-sm border-0 p-4 mb-4">
-                <h5 class="fw-bold mb-3"><i data-lucide="settings" class="me-2"></i>Account Settings</h5>
-                <label class="form-label text-muted small">Update Email Address</label>
-                <div id="email-status"></div>
-                <form hx-post="{{ url_for('profile.update_email') }}" hx-target="#email-status">
-                    {{ form.csrf_token }}
-                    <div class="input-group">
-                        {{ form.email(class="form-control", placeholder="New Email") }}
-                        <button class="btn btn-primary">Update</button>
-                    </div>
-                </form>
-            </div>
+            <div class="d-flex flex-column gap-4">
+                
+                <div class="card p-4 shadow">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center" style="color: #e4e6eb;">
+                        <i data-lucide="settings" class="me-2" size="18" style="color: var(--primary-color);"></i>
+                        Account Settings
+                    </h5>
+                    
+                    <div id="email-status" class="mb-2"></div>
+                    
+                    <form hx-post="{{ url_for('profile.update_email') }}" hx-target="#email-status">
+                        {{ form.csrf_token }}
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted small uppercase-label mb-2">Update Email Address</label>
+                            <div class="input-group">
+                                {{ form.email(class="form-control px-3", placeholder="New Email Address") }}
+                                {{ ui_element(
+                                    text="Update", 
+                                    variant="primary", 
+                                    type="submit", 
+                                    extra_classes="px-4"
+                                ) }}
+                            </div>
+                            
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small mt-1">⚠️ {{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
 
-            <div class="card border-danger bg-danger bg-opacity-10 p-4">
-                <h5 class="text-danger fw-bold"><i data-lucide="alert-triangle" class="me-2"></i>Danger Zone</h5>
-                <p class="small">Deleting your account will remove all budgets, plans, and <strong>{{ total_photos }} photos</strong> permanently.</p>
-                <button class="btn btn-danger btn-sm" 
-                        hx-post="{{ url_for('profile.delete_account') }}"
-                        hx-confirm="Are you sure you want to delete everything?">
-                    Delete My Account
-                </button>
+                <div class="card p-4 border-danger bg-danger bg-opacity-10 shadow">
+                    <h5 class="text-danger fw-bold mb-3 d-flex align-items-center">
+                        <i data-lucide="alert-triangle" class="me-2" size="18"></i>
+                        Danger Zone
+                    </h5>
+                    
+                    <p class="text-muted small mb-4">
+                        Deleting your account will eliminate your records. It removes all active budgets, planned schedules, and 
+                        <span class="badge-danger-count">{{ total_photos }} photos</span> permanently.
+                    </p>
+                    
+                    <div>
+                        {{ ui_element(
+                            text="Delete My Account", 
+                            variant="danger", 
+                            type="button", 
+                            extra_classes="px-4 fw-bold",
+                            hx_post=url_for('profile.delete_account'),
+                            hx_confirm="⚠️ Are you certain you want to erase your account data? This step cannot be rolled back."
+                        ) }}
+                    </div>
+                </div>
+
             </div>
         </div>
+        
     </div>
 </div>
 {% endblock %}
