@@ -21,7 +21,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-flash_cache_bin/
+flask_cache_bin/
 MANIFEST
 
 .venv/
