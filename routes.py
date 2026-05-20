@@ -5,7 +5,6 @@ main_blueprint = Blueprint('main', __name__, template_folder='templates')
 app = Flask(__name__)
 
 @main_blueprint.route('/')
-@login_required
 def home():
     return render_template('index.html')
 
