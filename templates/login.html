@@ -24,8 +24,21 @@
                             {{ render_field(form.username, placeholder="Մուտքանուն", class="form-control form-control-lg") }}
                         </div>
                         
-                        <div class="mb-4">
+                        <div class="mb-4" style="position: relative; display: block;">
                             {{ render_field(form.password, placeholder="••••••••", type="password", class="form-control form-control-lg") }}
+                           <span class="text-muted" 
+                                style="position: absolute; right: 1rem; top: calc(50% + 10px); transform: translateY(-50%); cursor: pointer; z-index: 10; display: inline-flex; height: 20px; align-items: center;"
+                                _ = "on click 
+                                        if <input[name='password']/>'s type is 'password'
+                                            set <input[name='password']/>'s type to 'text'
+                                        else
+                                            set <input[name='password']/>'s type to 'password'
+                                        end
+                                        toggle .d-none on .eye-icon in me">
+                                
+                                <span class="eye-icon d-flex">{{ icon("eye", size=20) }}</span>
+                                <span class="eye-icon d-none">{{ icon("eye-off", size=20) }}</span>
+                            </span>
                         </div>
 
                         <div id="error-message" class="text-danger mb-3 text-center fw-bold"></div>

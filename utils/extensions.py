@@ -32,7 +32,7 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 admin = Admin(name="Budget Manager", index_view=MyAdminIndexView())
 limiter = Limiter(key_func=get_remote_address, 
-                  default_limits=["200 per day", "50 per hour"],
+                  default_limits=["1000 per day", "170 per hour"],
                   storage_uri="memory://", 
                   strategy="fixed-window")
 login_manager = LoginManager()
