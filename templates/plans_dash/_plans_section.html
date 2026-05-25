@@ -56,14 +56,14 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="fw-bold mb-0">Your Schedules</h5>
+        <h5 class="fw-bold mb-0">Ձեր Պլաները</h5>
 
         <select name="budget_filter"
                 class="form-select form-select-sm"
                 style="width: auto; min-width: 200px;"
                 hx-get="{{ url_for('plans_dash.filter_plans') }}"
                 hx-target="#plans_innerPart">
-            <option value="">All My Trips</option>
+            <option value="">Ձեր պլաները</option>
             {% for b in user_budgets %}
                 <option value="{{ b.id }}" {% if b.id == selected_budget_id %}selected{% endif %}>{{ b.name }}</option>
             {% endfor %}

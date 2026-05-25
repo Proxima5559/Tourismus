@@ -36,7 +36,7 @@
                         <div class="input-group">
                             <input type="text" name="description" class="form-control" placeholder="Go to the sea..." required autofocus>
                             {{ ui_element(
-                                text="Next",
+                                text="Ավելացնել",
                                 type="submit",
                                 variant="success",
                                 extra_classes="px-4 fw-bold",
@@ -52,7 +52,7 @@
                 <hr class="my-4" style="border-color: rgba(255,255,255,0.06);">
 
                 <div>
-                    <label class="form-label section-header text-muted d-block mb-2">Trip Tags</label>
+                    <label class="form-label section-header text-muted d-block mb-2">Տագեր</label>
                     <div id="tags-container" class="mb-3">
                         {% include "plans_dash/_tags_partial.html" %}
                     </div>
@@ -70,7 +70,7 @@
                 <div id="task-lists">
                     <div class="mb-5">
                         <h6 class="section-header mb-3" style="color: #ff6b6b;">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Mandatory Tasks
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Պարտադիր Գործեր
                         </h6>
                         <div id="mandatory-list" class="list-group list-group-flush">
                             {% for item in mandatory %}
@@ -81,7 +81,7 @@
 
                     <div>
                         <h6 class="section-header text-muted mb-3">
-                            <i class="bi bi-list-stars me-2"></i>Secondary Tasks
+                            <i class="bi bi-list-stars me-2"></i>Երկրորդական Գործեր
                         </h6>
                         <div id="secondary-list" class="list-group list-group-flush">
                             {% for item in secondary %}

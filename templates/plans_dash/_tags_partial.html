@@ -8,7 +8,7 @@
         
         {% if plan.tag %}
             {{ ui_element(
-                text="Clear All",
+                text="Ջնջել բոլորը",
                 variant="danger",
                 extra_classes="text-white small text-decoration-none p-0 fw-bold",
                 hx_delete=url_for('plans_dash.clear_all_tags', slug=plan.slug),
@@ -28,7 +28,7 @@
                 {% endif %}
             {% endfor %}
         {% else %}
-            <p class="text-muted small italic mb-0">No tags added yet.</p>
+            <p class="text-muted small italic mb-0">Տագ չկա</p>
         {% endif %}
     </div>
 </div>
