@@ -50,14 +50,12 @@
     line-height: 1;
     background: linear-gradient(135deg, #fff 30%, #5ecfef);
     
-    /* THE MISSING PIECE: */
     -webkit-background-clip: text; 
     background-clip: text; 
     
     -webkit-text-fill-color: transparent;
     opacity: 0.9;
     
-    /* Fallback for browsers that don't support clipping */
     color: #fff; 
 }
 </style>
@@ -67,13 +65,13 @@
 
     <div class="error-content animate__animated animate__fadeIn">
         <h1 class="error-title">404</h1>
-        <h2 class="h4 mb-4 fw-light text-uppercase tracking-widest">Oops, you've drifted off course</h2>
+        <h2 class="h4 mb-4 fw-light text-uppercase tracking-widest">Ուպս, էջը գոյություն չունի</h2>
         <p class="mb-5 opacity-75">
-            The page you're looking for doesn't exist or has been moved to an unknown destination.
+            Նման էջ չկա կամ այն կարող է տեղափոխված լինել։ Խնդրում ենք ստուգել URL-ը կամ վերադառնալ գլխավոր էջ։
         </p>
 
         {{ ui_element(
-            text=icon('armchair', height=14, width=14) ~ " Return Home",
+            text=icon('armchair', height=14, width=14) ~ " Վերադարձ դեպի գլխավոր էջ",
             href=url_for('main.home'), 
             extra_classes="btn-lab",
             hx_boost=True
