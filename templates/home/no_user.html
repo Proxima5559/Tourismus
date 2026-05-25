@@ -6,12 +6,16 @@
     <p class="mt-3 mb-4 mx-auto" style="font-size:14px;line-height:1.9;color:rgba(228,230,235,.5);max-width:400px">
       Միացե՛ք Tourismus-ին անվճար։ Բաժանորդագրություն չկա, հիմնական գործիքների վրա սահմանափակումներ չկան։    </p>
     <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="{{ url_for('auth.register') }}" class="btn-lab">
-        {{ icon('user-plus', height=13, width=13) }} Ստեղծեք անվճար հաշիվ
-      </a>
-      <a href="{{ url_for('auth.login') }}" class="btn-lab-outline">
-        {{ icon('log-in', height=13, width=13) }} Մուտք գործել
-      </a>
+      {{ ui_element(
+          text=(icon('user-plus', height=13, width=13) ~ " Ստեղծեք անվճար հաշիվ")|safe,
+          variant="lab",
+          href=url_for('auth.register')
+      ) }}
+      {{ ui_element(
+          text=(icon('log-in', height=13, width=13) ~ " Մուտք գործել")|safe,
+          variant="lab-outline",
+          href=url_for('auth.login')
+      ) }}
     </div>
   </div>
 </section>
