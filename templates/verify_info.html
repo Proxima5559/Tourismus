@@ -38,11 +38,11 @@
                             </div>
                     </div>
 
-                    <h2 class="h3 fw-bold mb-3">Confirm Your Email</h2>
+                    <h2 class="h3 fw-bold mb-3">Հաստատեք ձեր էլ. փոստը</h2>
                     
                     <p class="text-muted">
-                        We've sent a secure confirmation link to your inbox. 
-                        Please click the link to activate your account.
+                        Մենք հաստատման հղում ենք ուղարկել ձեր էլ. փոստին։
+                        Խնդրում ենք սեղմել հղման վրա՝ ձեր հաշիվը ակտիվացնելու համար։
                     </p>
 
                     <div class="alert mt-4 text-start" style="background-color: #fff9e6; border: 1px dashed var(--primary-border);">
@@ -53,7 +53,7 @@
                             <div>
                                 <h6 class="mb-1 fw-bold">Development Mode</h6>
                                 <small class="text-secondary">
-                                    Since this is a diploma demo, the email has been "trapped" in 
+                                    Թեստավրեք այս ֆունկցիոնալությունը օգտագործելով այն
                                     <a href="https://mailtrap.io" target="_blank" class="fw-bold text-decoration-none text-primary-custom">Mailtrap</a>.
                                 </small>
                             </div>
@@ -62,13 +62,13 @@
 
                     <div class="d-grid gap-2 mt-4">
                         {{ ui_element(
-                            text="Return to Login",
+                            text="Վերադարձ դեպի մուտք",
                             href=url_for('auth.login'),
                             variant="none",
                             extra_classes="bg-gold py-2 fw-bold"
                         ) }}
                         {{ ui_element(
-                            text="Didn't get an email? Try again",
+                            text="Չե՞ք ստացել էլ. նամակ։ Փորձե՛ք նորից։",
                             href=url_for('auth.register'),
                             variant="warning",
                             extra_classes="text-muted text-decoration-none small"
