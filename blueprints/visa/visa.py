@@ -1,6 +1,11 @@
 from flask import Flask, Blueprint, render_template, request, jsonify
 from consonants_cs.constants import COUNTRY_NAMES_HY 
 from utils.extensions import cache, http_session
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 visa_bp = Blueprint('visa', __name__, template_folder='templates', url_prefix='/visa')
 
@@ -16,7 +21,8 @@ def make_visa_key():
 @cache.cached(timeout=24, make_cache_key=make_visa_key)
 def get_map():
     country = request.form.get('country_code')
-
+    FLAG_BASE = os.getenv('FLAG_BASE', 'https://flagcdn.com/w40')
+    DEFAULT_FLAG = f"{FLAG_BASE}/un.png"
     categories = {
         'VF': {'name': 'Առանց վիզայի', 'color': '#2ecc71', 'list': []},
         'VOA': {'name': 'Մուտքի արտոնագիր ժամանելիս', 'color': '#f1c40f', 'list': []},
@@ -32,19 +38,22 @@ def get_map():
 
         for cat_key in categories.keys():
             raw_list = data.get(cat_key, [])
+            current_category_items = []
             for item in raw_list:
                 code = item.get('code')
                 if not code or len(code) != 2:
                     continue
                 
                 targets.append(code)
+                flag_url = f"{FLAG_BASE}/{code.lower()}.png"
                 
-                categories[cat_key]['list'].append({
+                current_category_items.append({
                     'code': code.lower(),
-                    'name': COUNTRY_NAMES_HY.get(code, item.get('name', code))
+                    'name': COUNTRY_NAMES_HY.get(code, item.get('name', code)),
+                    'flag_url': flag_url
                 })
-            
-            categories[cat_key]['list'].sort(key=lambda x: x['name'])
+            current_category_items.sort(key=lambda x: x['name'])
+            categories[cat_key]['list'] = current_category_items
 
     except Exception as e:
         print(f"Error: {e}")
@@ -52,4 +61,5 @@ def get_map():
 
     return render_template('visa/map_partial.html', 
                            targets=targets, 
-                           categories=categories)
+                           categories=categories,
+                           default_flag=DEFAULT_FLAG)
