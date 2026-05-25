@@ -7,7 +7,7 @@ from consonants_cs.country_details import (
     COUNTRY_NEIGHBORS_HY, CONTINENT_NAMES_HY
 )
 from consonants_cs.safety_rate import SAFETY_RATE
-from consonants_cs.adt_details import INFRA_RATE, CLEAN_RATE, HOTTEST_RATE, EMERGENCY_NUMBERS
+from consonants_cs.adt_details import INFRA_RATE, CLEAN_RATE, HOTTEST_RATE, EMERGENCY_NUMBERS, HOSPITALITY_RATE
 
 SAFE_COUNTRY_CODES = {"IS", "IE", "NZ", "AT", "CH", "SG", "PT", "DK", "SI", "FI"}
 DANGEROUS_COUNTRY_CODES = {"AF", "YE", "SY", "LY", "SO", "SD", "SS", "HT", "UA", "MM"}
@@ -96,12 +96,14 @@ class PlacesService:
             "languages": COUNTRY_LANGUAGES_HY.get(code, []),
             "neighbors": COUNTRY_NEIGHBORS_HY.get(code, []),
             "safety_rate": SAFETY_RATE.get(code),
+            "hospitality_rate": HOSPITALITY_RATE.get(code),
             "continent_hy": CONTINENT_NAMES_HY.get(api_data['continent'], "Անհայտ"),
             "major_cities": major_cities,
             "stats": {
                 "infra": INFRA_RATE.get(code, 0),
                 "clean": CLEAN_RATE.get(code, 0),
                 "temp": HOTTEST_RATE.get(code, 0),
+                "hospitality": HOSPITALITY_RATE.get(code, 0),
                 "emerg_police": cls._format_emergency_val(emerg[0]),
                 "emerg_ambulance": cls._format_emergency_val(emerg[1]),
                 "emerg_fire": cls._format_emergency_val(emerg[2])

@@ -33,6 +33,7 @@
                         <div class="progress-fill" style="width:{{ stats.infra }}%; background:{{ '#1db954' if stats.infra > 70 else '#ffc107' if stats.infra >= 45 else '#ff6b6b' }};"></div>
                     </div>
                 </div>
+            
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between mb-1">
@@ -41,6 +42,19 @@
                     </div>
                     <div class="progress-wrap">
                         <div class="progress-fill" style="width:{{ stats.clean }}%; background:{{ '#1db954' if stats.clean > 62 else '#ffc107' if stats.clean >= 45 else '#ff6b6b' }};"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="section-label">Հյուրընկալություն</span>
+                        <span style="font-size:12px; color:var(--primary-color); font-weight:700;">{{ stats.hospitality }}%</span>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-fill" 
+                            style="width:{{ stats.hospitality }}%; 
+                                    background:{{ '#1db954' if stats.hospitality > 70 else '#ffc107' if stats.hospitality >= 45 else '#ff6b6b' }};">
+                        </div>
                     </div>
                 </div>
 
@@ -104,10 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
     new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ['Ենթակառուցվածք', 'Մաքրություն', 'Անվտանգություն', 'Ջերմաստիճան'],
+            labels: ['Ենթակառուցվածք', 'Մաքրություն', 'Ջերմաստիճան', 'Հյուր-թյուն'],
             datasets: [{
                 label: '{{ country_name }}',
-                data: [{{ stats.infra }}, {{ stats.clean }}, {{ safety_rate }}, {{ (stats.temp / 40 * 100)|abs }}],
+                data: [{{ stats.infra }}, {{ stats.clean }}, {{ (stats.temp / 40 * 100)|abs }}, {{ stats.hospitality }}],
                 fill: true,
                 backgroundColor: 'rgba(217,164,6,0.1)',
                 borderColor: '#d9a406',
