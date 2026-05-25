@@ -17,7 +17,37 @@
     flex-shrink: 0;
 }
 
+section {
+    display: block;
+    width: 100%;
+    margin-bottom: 3rem !important; 
+}
 
+.budget-info-card, 
+.limit-card, 
+#expenses_innerPart.card {
+    margin-bottom: 0 !important; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+
+.row.g-3 {
+    --bs-gutter-y: 1.5rem; 
+    --bs-gutter-x: 1.5rem;
+}
+
+.text-uppercase {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.section-label {
+    color: #9da3a8 !important; 
+    font-weight: 700;
+}
+
+h6.ls-1 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+}
 .bg-success-soft  { background-color: rgba(25,135,84,.12); }
 .bg-warning-soft  { background-color: rgba(255,193,7,.15); }
 .bg-danger-soft   { background-color: rgba(220,53,69,.12); }
@@ -38,6 +68,13 @@
 @media (min-width: 768px) {
     .border-end-md {
         border-right: 1px solid #333 !important;
+    }
+    section {
+        margin-bottom: 2rem !important;
+        padding: 0 5px; 
+    }
+    .table tr {
+        margin-bottom: 1.5rem; 
     }
 }
 

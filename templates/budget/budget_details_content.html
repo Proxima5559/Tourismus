@@ -1,18 +1,32 @@
 {% from 'macros/btn.html' import ui_element with context %}
 <div id="budget-details" class="container mt-4">
-    {% include 'budget/budget_info.html' %}
-    {% include 'budget/category_limits.html' %}
+    <section class="mb-5">
+        {% include 'budget/budget_info.html' %}
+    </section>
+
+    <section class="mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <h6 class="text-uppercase fw-bold ls-1 mb-0 d-flex align-items-center" 
+                style="font-size: 0.8rem; letter-spacing: 0.15em; color: #adb5bd;">
+                <i class="bi bi-grid-1x2-fill me-2 opacity-50"></i>
+                Կատեգորիայի լիմիթներ
+            </h6>
+            <div class="flex-grow-1 ms-3" style="height: 1px; background: linear-gradient(to right, rgb(255, 255, 255), transparent);"></div>
+        </div>
+        
+        {% include 'budget/category_limits.html' %}
+    </section>
     <div id="error-container"></div>
 
-    <div id="expenses_innerPart">
+    <section id="expenses_innerPart" class="mt-4">
         {% include "budget/expenses_table.html" %}
-    </div>
+    </section>
 
-    <div id="pdf-section-wrapper">
+    <section id="pdf-section-wrapper">
         {% if expenses|length > 0 %}
             {% include 'budget/pdf/pdf.html' %}
         {% endif %}
-    </div>
+    </section>
     {% include 'budget/scripts.html' %}
 </div>
 {% include 'budget/add_expense_form.html' %}
