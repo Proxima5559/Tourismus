@@ -8,6 +8,7 @@ from consonants_cs.country_details import (
 )
 from consonants_cs.safety_rate import SAFETY_RATE
 from consonants_cs.adt_details import INFRA_RATE, CLEAN_RATE, HOTTEST_RATE, EMERGENCY_NUMBERS, HOSPITALITY_RATE
+from consonants_cs.description import COUNTRY_DESCRIPTIONS_HY
 
 SAFE_COUNTRY_CODES = {"IS", "IE", "NZ", "AT", "CH", "SG", "PT", "DK", "SI", "FI"}
 DANGEROUS_COUNTRY_CODES = {"AF", "YE", "SY", "LY", "SO", "SD", "SS", "HT", "UA", "MM"}
@@ -108,5 +109,6 @@ class PlacesService:
                 "emerg_ambulance": cls._format_emergency_val(emerg[1]),
                 "emerg_fire": cls._format_emergency_val(emerg[2])
             },
+            "description": COUNTRY_DESCRIPTIONS_HY.get(code, "Նկարագրությունը առկա չէ"),
             **api_data
         }
