@@ -60,20 +60,20 @@
 
     <div class="error-content animate__animated animate__fadeInUp">
         <h1 class="error-title">500</h1>
-        <h2 class="error-subtitle">Internal Server Error</h2>
+        <h2 class="error-subtitle">Սերվերի խափանում</h2>
         
         <p class="mt-4 mb-5 opacity-75">
-            Something went wrong on our end. We're currently looking into the issue. 
-            In the meantime, try refreshing or head back to the dashboard.
+            Ներողություն, է տեղի է ունեցել խափանում։ Խնդրում ենք փորձել մի քանի րոպեից կամ կապվել աջակցությանը։ 
+            Անհրաժեշտության դեպքում կարող եք վերադառնալ գլխավոր էջ։
         </p>
 
         <div class="d-flex gap-3 justify-content-center">
             <button class="btn-lab-outline" onclick="window.location.reload();">
-                {{ icon('refresh-cw', height=14, width=14) }} Reload Page
+                {{ icon('refresh-cw', height=14, width=14) }} Թարմացնել էջը
             </button>
 
             {{ ui_element(
-                text=icon('home', height=14, width=14) ~ " Back to Home",
+                text=icon('home', height=14, width=14) ~ " Վերադարձ դեպի գլխավոր էջ",
                 href=url_for('main.index'),
                 extra_classes="btn-lab",
                 hx_boost=True
