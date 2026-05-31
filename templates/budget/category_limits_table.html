@@ -50,7 +50,7 @@
 
                         <div class="small fw-semibold text-end">
                             {% if remaining < 0 %}
-                                <span class="text-danger">Over by {{ remaining|abs | money(budget.currency) }}</span>
+                                <span class="text-danger">Անցել է {{ remaining|abs | money(budget.currency) }}</span>
                             {% else %}
                                 <span class="text-muted">{{ remaining | money(budget.currency) }} մնացած</span>
                             {% endif %}
