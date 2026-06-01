@@ -6,7 +6,6 @@ from utils.extensions import db, login_manager, babel, csrf, cache, migrate, mai
 from utils.utils import format_currency_custom, format_date_custom
 from lucide.jinja import lucide
 from logger_config import setup_app_logging
-import cloudinary
 
 from routes import main_blueprint
 from blueprints.auth.auth import auth_bp
@@ -34,7 +33,6 @@ def create_app():
     migrate.init_app(app, db)
     mail.init_app(app)
     setup_app_logging()
-    cloudinary.config(secure=False)
     
     app.jinja_env.globals.update({
         "lucide": lucide,
