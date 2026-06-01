@@ -22,7 +22,9 @@
     <hr class="border-secondary">
     {% include "places_dashboard/historic.html" %}
     <hr class="border-secondary">
-    {% include "places_dashboard/the_safest.html" %}
+    <div hx-get="{{ url_for('places_dashboard.get_the_safest') }}" hx-trigger="revealed" hx-swap="outerHTML">
+        <div class="loader">Loading The Safest...</div>
+    </div> 
     <hr class="border-secondary">
     <div hx-get="{{ url_for('places_dashboard.get_dangerous') }}" hx-trigger="revealed" hx-swap="outerHTML">
         <div class="loader">Loading Dangerous...</div>
