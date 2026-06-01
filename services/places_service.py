@@ -1,5 +1,6 @@
 from urllib.parse import quote
 from loguru import logger
+from consonants_cs.month_places import MONTHLY_DESTINATIONS
 from utils.extensions import cache, http_session
 from consonants_cs.constants import COUNTRY_NAMES_HY, COUNTRY_CAPITALS_HY
 from consonants_cs.country_details import (
@@ -72,6 +73,16 @@ class PlacesService:
                 "timezones": [], "currencies": [], "dialing_code": "N/A",
                 "flag_url": f"https://flagcdn.com/w320/{code.lower()}.png"
             }
+    @staticmethod
+    def get_seasonal_recommendations(month_index):
+        codes = MONTHLY_DESTINATIONS.get(int(month_index), [])
+        return [
+            {
+                "code": code.lower(), 
+                "name": COUNTRY_NAMES_HY.get(code, code)
+            } 
+            for code in codes
+        ]
 
     @classmethod
     def get_full_country_context(cls, country_code):

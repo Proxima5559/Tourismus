@@ -11,7 +11,11 @@
         title_icon="earth",
         accent_icon="earth"
     ) }}
-        
+    <div hx-get="{{ url_for('places_dashboard.get_seasonal', month=current_month) }}" hx-trigger="load">
+        {% include "places_dashboard/seasonal_calendar.html" %}
+    </div>
+    <hr class="border-secondary">
+
     {% include "places_dashboard/eco.html" %}
     <hr class="border-secondary">
     {% include "places_dashboard/gastro.html" %}
@@ -22,7 +26,7 @@
     <hr class="border-secondary">
     <div hx-get="{{ url_for('places_dashboard.get_dangerous') }}" hx-trigger="revealed" hx-swap="outerHTML">
         <div class="loader">Loading Dangerous...</div>
-    </div>
+    </div>    
 
     <div class="row mt-5">
         <div class="col-12">

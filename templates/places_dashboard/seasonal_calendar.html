@@ -1,0 +1,37 @@
+<div class="card bg-dark text-white border-secondary mt-5 shadow-lg">
+    <div class="card-header border-secondary py-4 bg-black bg-opacity-25 text-center">
+        <h4 class="mb-0 text-uppercase" style="letter-spacing: 3px; font-weight: 800;">
+            📅 {{ _('Ճամփորդական Օրացույց') }}
+        </h4>
+    </div>
+    <div class="card-body p-0">
+        <div class="row g-0">
+            <div class="col-md-4 border-end border-secondary" style="background: rgba(0,0,0,0.2);">
+                <div class="list-group list-group-flush" style="max-height: 500px; overflow-y: auto;">
+                    {% for m_idx, m_name in months_hy.items() %}
+                    <button type="button" 
+                            class="list-group-item list-group-item-action bg-transparent text-white border-secondary py-3 px-4"
+                            hx-get="{{ url_for('places_dashboard.get_seasonal', month=m_idx) }}"
+                            hx-target="#seasonal-list-display"
+                            hx-trigger="click"
+                            _="on click 
+                                 take .bg-primary from .list-group-item 
+                                 add .bg-primary to me">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">{{ m_name }}</span>
+                            {{ icon("chevron-right", size=16, extra_classes="opacity-25") }}
+                        </div>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-8 p-4" id="seasonal-list-display">
+                <div class="h-100 d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                    {{ icon("map-pin", size=48, stroke_width=1) }}
+                    <p class="mt-3">Ընտրեք ամիսը՝ առաջարկվող երկրները տեսնելու համար</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

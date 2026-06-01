@@ -1,0 +1,22 @@
+<div class="animate__animated animate__fadeIn animate__faster">
+    <div class="d-flex align-items-center mb-4">
+        <div class="p-2 bg-primary rounded me-3">
+             {{ icon("calendar", size=24) }}
+        </div>
+        <h4 class="mb-0 text-info fw-bold">{{ month_name }}</h4>
+    </div>
+
+    <div class="row g-3">
+        {% for country in countries %}
+        <div class="col-sm-6">
+            <div class="d-flex align-items-center p-3 rounded bg-secondary bg-opacity-10 border border-secondary hover-lift">
+                <img src="https://flagcdn.com/w40/{{ country.code }}.png" 
+                     class="rounded-sm me-3 shadow-sm" 
+                     style="width: 35px; border: 1px solid rgba(255,255,255,0.1)"
+                     alt="{{ country.name }}">
+                <span class="fw-bold text-light fs-6">{{ country.name }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
