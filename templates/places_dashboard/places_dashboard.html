@@ -11,7 +11,7 @@
         title_icon="earth",
         accent_icon="earth"
     ) }}
-    <div hx-get="{{ url_for('places_dashboard.get_seasonal', month=current_month) }}" hx-trigger="load">
+    <div>
         {% include "places_dashboard/seasonal_calendar.html" %}
     </div>
     <hr class="border-secondary">

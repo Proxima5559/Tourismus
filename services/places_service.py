@@ -74,6 +74,7 @@ class PlacesService:
                 "flag_url": f"https://flagcdn.com/w320/{code.lower()}.png"
             }
     @staticmethod
+    @cache.memoize(timeout=3600)
     def get_seasonal_recommendations(month_index):
         codes = MONTHLY_DESTINATIONS.get(int(month_index), [])
         return [

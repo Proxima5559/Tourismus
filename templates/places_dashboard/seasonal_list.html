@@ -1,22 +1,77 @@
+<style>
+    .destination-item {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .flag-and-name {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .dest-flag {
+        width: 32px;
+        height: 20px;
+        object-fit: cover;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .dest-name {
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 991px) {
+        .equal-height-panel {
+            height: auto !important; 
+            min-height: 400px;
+        }
+
+        .destination-item {
+            padding: 10px !important;
+            margin-bottom: 6px !important;
+        }
+
+        .dest-name {
+            font-size: 0.85rem !important;
+        }
+
+        .dest-flag {
+            width: 26px !important;
+            height: 16px !important;
+        }
+    }
+</style>
+
 <div class="animate__animated animate__fadeIn animate__faster">
-    <div class="d-flex align-items-center mb-4">
-        <div class="p-2 bg-primary rounded me-3">
-             {{ icon("calendar", size=24) }}
-        </div>
-        <h4 class="mb-0 text-info fw-bold">{{ month_name }}</h4>
+    <div class="mb-3">
+        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-2 fw-bold small">
+            {{ month_name }}
+        </span>
     </div>
 
-    <div class="row g-3">
+    <div>
         {% for country in countries %}
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center p-3 rounded bg-secondary bg-opacity-10 border border-secondary hover-lift">
-                <img src="https://flagcdn.com/w40/{{ country.code }}.png" 
-                     class="rounded-sm me-3 shadow-sm" 
-                     style="width: 35px; border: 1px solid rgba(255,255,255,0.1)"
-                     alt="{{ country.name }}">
-                <span class="fw-bold text-light fs-6">{{ country.name }}</span>
+            <div class="destination-item">
+                <div class="flag-and-name">
+                    <img src="https://flagcdn.com/w40/{{ country.code }}.png" class="dest-flag" alt="">
+                    <span class="dest-name">{{ country.name }}</span>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="text-center py-5 text-muted opacity-50">
+                <small>Այս ամսվա համար տվյալներ չկան</small>
+            </div>
         {% endfor %}
     </div>
 </div>
