@@ -248,10 +248,3 @@ def get_stats(slug):
                            total_actual=total_actual,
                            remaining=remaining,
                            percent=percent)
-
-
- # all_expenses = Expense.query.filter_by(budget_id=budget.id).all()
-        # total_planned = sum(e.amount for e in all_expenses)
-        # total_actual = sum(e.actual_amount or 0 for e in all_expenses)
-        # remaining = total_planned - total_actual
-        # percent = round((total_actual / total_planned * 100), 1) if total_planned > 0 else 0
