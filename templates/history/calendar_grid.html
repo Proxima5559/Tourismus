@@ -1,3 +1,4 @@
+{% from 'macros/btn.html' import ui_element with context %}
 <div id="calendar-container" class="card border-0">
     <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 py-3"
          style="background: var(--bg-card-2); border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -7,19 +8,23 @@
         </h3>
 
         <div class="d-flex gap-2 w-100 w-md-auto justify-content-center">
-            <button hx-get="{{ url_for('history.view_calendar', month=prev_month, year=prev_year) }}"
-                    hx-target="#calendar-wrapper"
-                    class="btn btn-sm px-3 flex-grow-1 flex-md-grow-0"
-                    style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;">
-                <i class="bi bi-chevron-left"></i> Prev
-            </button>
+            {{ ui_element(
+                text="Prev",
+                variant="link",
+                hx_get=url_for('history.view_calendar', month=prev_month, year=prev_year),
+                hx_target="#calendar-wrapper",
+                extra_classes="btn-sm flex-grow-1 flex-md-grow-0",
+                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;"
+            ) }}
 
-            <button hx-get="{{ url_for('history.view_calendar', month=next_month, year=next_year) }}"
-                    hx-target="#calendar-wrapper"
-                    class="btn btn-sm px-3 flex-grow-1 flex-md-grow-0"
-                    style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;">
-                Next <i class="bi bi-chevron-right"></i>
-            </button>
+            {{ ui_element(
+                text="Next",
+                variant="link",
+                hx_get=url_for('history.view_calendar', month=next_month, year=next_year),
+                hx_target="#calendar-wrapper",
+                extra_classes="btn-sm flex-grow-1 flex-md-grow-0",
+                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;"
+            ) }}
         </div>
     </div>
 
@@ -68,41 +73,3 @@
         {% endfor %}
     </div>
 </div>
-
-<style>
-.calendar-day {
-    min-height: 110px; 
-}
-
-.day-number { font-size: 14px; }
-.plan-badge { font-size: 10px; }
-.price-tag { font-size: 11px; }
-
-@media (max-width: 576px) {
-    .calendar-day {
-        min-height: 70px; 
-        padding: 5px;
-    }
-    
-    .day-number { font-size: 12px; }
-    
-    .plan-badge { 
-        font-size: 8px; 
-        padding: 2px 4px;
-    }
-    
-    .price-tag { 
-        font-size: 9px; 
-    }
-
-    .card-header h3 {
-        font-size: 1.25rem;
-    }
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    width: 100%;
-}
-</style>

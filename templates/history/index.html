@@ -5,41 +5,9 @@
 {% block content %}
 
 {% from 'macros/header_macros.html' import render_header %}
+{% from 'macros/btn.html' import ui_element with context %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/budget_css/b_dash.css') }}">
-<style>
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background-color: rgba(255,255,255,0.04);
-    gap: 1px;
-}
-.calendar-header {
-    background: var(--bg-card-2);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #5e6570;
-    text-align: center;
-    padding: 10px 0;
-}
-.calendar-day {
-    background: var(--bg-card);
-    min-height: 110px;
-    padding: 10px;
-    transition: background 0.15s;
-}
-
-.calendar-day:nth-child(7n) {
-        border-right: none !important; 
-    }
-
-.calendar-day:hover { background: var(--bg-card-2); }
-.modal-content { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; }
-.modal-header, .modal-footer { border-color: rgba(255,255,255,0.06) !important; background: var(--bg-card-2) !important; }
-.list-group-item { background: transparent; border-color: rgba(255,255,255,0.06); color: #e4e6eb; }
-
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
 
 <div class="container mt-5">
      {{ render_header(

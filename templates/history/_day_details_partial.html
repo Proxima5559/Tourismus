@@ -1,3 +1,4 @@
+{% from 'macros/btn.html' import ui_element with context %}
 <div class="modal-header">
     <h5 class="modal-title fw-bold text-light">
         <i class="bi bi-calendar-check me-2" style="color: var(--primary-color);"></i>
@@ -81,49 +82,19 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-sm px-3"
-            style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;"
-            data-bs-dismiss="modal">Փակել</button>
+    {{ ui_element(
+        text="Փակել",
+        type="button",
+        extra_classes="btn-sm",
+        style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09); color: #e4e6eb;",
+        data_bs_dismiss="modal"
+    ) }}
     {% if plan %}
-        <a href="{{ url_for('plans_dash.plan_detail', slug=plan.slug) }}"
-           class="btn btn-sm fw-bold px-3 shadow-sm"
-           style="background: linear-gradient(135deg, var(--primary-border), var(--primary-color)); color: #1a1a1a; border: none;">
-            Բացել պլանը
-        </a>
+        {{ ui_element(
+        text="Բացել պլանը",
+        variant="success",
+        href=url_for('plans_dash.plan_detail', slug=plan.slug),
+        extra_classes="btn-sm fw-bold text-white"
+    ) }}
     {% endif %}
 </div>
-
-<style>
-.scroll-section::-webkit-scrollbar {
-    width: 4px;
-}
-.scroll-section::-webkit-scrollbar-track {
-    background: transparent;
-}
-.scroll-section::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-.scroll-section::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-
-.scroll-section {
-    max-height: 40vh; 
-    overflow-y: auto;
-    padding-right: 8px;
-}
-
-@media (max-width: 768px) {
-    .scroll-section {
-        max-height: 250px; 
-    }
-    
-    .col-md-6 {
-        border-right: none !important;
-    }
-}
-
-.tracking-widest { letter-spacing: 0.1em; }
-.bg-inherit { background: inherit; }
-</style>
