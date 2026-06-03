@@ -23,13 +23,13 @@
                 <div class="row g-2">
                     <div class="col-6">
                         <div class="p-3 border rounded stat-card" style="background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05) !important;">
-                            <small class="text-muted d-block uppercase-label mb-1">Budgets</small>
+                            <small class="text-muted d-block uppercase-label mb-1">Բյուդջներ</small>
                             <span class="fw-bold fs-4" style="color: var(--primary-color);">{{ total_budgets }}</span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="p-3 border rounded stat-card" style="background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05) !important;">
-                            <small class="text-muted d-block uppercase-label mb-1">Daily Plans</small>
+                            <small class="text-muted d-block uppercase-label mb-1">Օրական  պլաններ</small>
                             <span class="fw-bold fs-4" style="color: var(--primary-color);">{{ total_plans }}</span>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                 <div class="card p-4 shadow">
                     <h5 class="fw-bold mb-4 d-flex align-items-center" style="color: #e4e6eb;">
                         <i data-lucide="settings" class="me-2" size="18" style="color: var(--primary-color);"></i>
-                        Account Settings
+                        Հաշիվի կարգավորումներ
                     </h5>
                     
                     <div id="email-status" class="mb-2"></div>
@@ -52,11 +52,11 @@
                         {{ form.csrf_token }}
                         
                         <div class="mb-3">
-                            <label class="form-label text-muted small uppercase-label mb-2">Update Email Address</label>
+                            <label class="form-label text-muted small uppercase-label mb-2">Թարմացնել էլ. փոստը</label>
                             <div class="input-group">
-                                {{ form.email(class="form-control px-3", placeholder="New Email Address") }}
+                                {{ form.email(class="form-control px-3", placeholder="Նոր էլ. փոստ") }}
                                 {{ ui_element(
-                                    text="Update", 
+                                    text="Թարմացնել", 
                                     variant="primary", 
                                     type="submit", 
                                     extra_classes="px-4"
@@ -79,13 +79,13 @@
                     </h5>
                     
                     <p class="text-muted small mb-4">
-                        Deleting your account will eliminate your records. It removes all active budgets, planned schedules, and 
-                        <span class="badge-danger-count">{{ total_photos }} photos</span> permanently.
+                        Ջնջելով ձեր հաշիվը, դուք կվերացնեք ձեր անձնական տվյալները, բոլոր բյուդջները և
+                        <span class="badge-danger-count"> օրական պլանները</span> մշտապես։
                     </p>
                     
                     <div>
                         {{ ui_element(
-                            text="Delete My Account", 
+                            text="Ջնջել իմ հաշիվը", 
                             variant="danger", 
                             type="button", 
                             extra_classes="px-4 fw-bold",
