@@ -70,9 +70,8 @@
 </div>
 
 <style>
-    /* Responsive Grid Adjustments */
 .calendar-day {
-    min-height: 110px; /* Default Desktop */
+    min-height: 110px; 
 }
 
 .day-number { font-size: 14px; }
@@ -81,7 +80,7 @@
 
 @media (max-width: 576px) {
     .calendar-day {
-        min-height: 70px; /* Shorter cells on mobile */
+        min-height: 70px; 
         padding: 5px;
     }
     
@@ -96,13 +95,11 @@
         font-size: 9px; 
     }
 
-    /* Make the buttons fill width on tiny screens */
     .card-header h3 {
         font-size: 1.25rem;
     }
 }
 
-/* Ensure the grid stays 7 columns even on tiny screens */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
