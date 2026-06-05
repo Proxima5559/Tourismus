@@ -10,9 +10,9 @@
         </div>
 
         <h1 class="section-heading mt-3 animate__animated animate__fadeInUp" style="animation-delay:.08s">
-          Plan smarter,<br>
-          <span class="text-faded">travel further,</span><br>
-          spend less.
+          Հեշտ պլանավորեք,<br>
+          <span class="text-faded">վայելելով ճանապարհոր-թյուն</span><br>
+          խնայելով ժամանակը:
         </h1>
         <p class="mt-3 animate__animated animate__fadeInUp" style="font-size:14px;line-height:1.9;color:rgba(228,230,235,.55);max-width:380px;animation-delay:.14s">
           Tourismus-ը ձեր բյուջեն, երթուղիները, վիզայի կարգավիճակը 
@@ -23,14 +23,14 @@
         <div class="d-flex flex-wrap gap-3 mt-4 animate__animated animate__fadeInUp" style="animation-delay:.2s">
           {% if current_user.is_authenticated %}
             {{ ui_element(
-              text=icon('map', height=13, width=13) ~ " My plans",
+              text=icon('map', height=13, width=13) ~ " Իմ պլաններ",
               href=url_for('plans_dash.index'),
               extra_classes="btn-lab",
               hx_boost=True
           ) }}
 
           {{ ui_element(
-              text=icon('wallet', height=13, width=13) ~ " Budget",
+              text=icon('wallet', height=13, width=13) ~ " Բյւջե",
               href=url_for('budget.budget_dashboard'),
               extra_classes="btn-lab-outline",
               hx_boost=True
