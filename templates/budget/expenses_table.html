@@ -7,7 +7,7 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
             <div>
-                <h5 class="fw-bold mb-0">Expenses</h5>
+                <h5 class="fw-bold mb-0">Ծախսեր</h5>
                 <p class="text-muted small mb-0">
                     {% if expenses %}{{ expenses|length }} expense{% if expenses|length != 1 %}s{% endif %}{% else %}No expenses yet{% endif %}
                 </p>
@@ -32,7 +32,7 @@
                     hx-get="{{ url_for('expenses.filter_expenses', slug=budget.slug) }}"
                     hx-target="#expenses_innerPart"
                     hx-swap="outerHTML">
-                    <option value="" {% if not selected_category %}selected{% endif %}>All categories</option>
+                    <option value="" {% if not selected_category %}selected{% endif %}>Բոլոր կատեգորիաներ</option>
                     {% for cat in categories %}
                         <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>
                             {{ cat.name }}
@@ -42,7 +42,7 @@
 
                 {% if expenses %}
                     {{ ui_element(
-                        text="Delete All",
+                        text="Ջնջել բոլորը",
                         variant="outline-danger",
                         hx_delete=url_for('expenses.delete_all_expenses', budget_id=budget.id),
                         hx_target="#expenses_innerPart",
@@ -59,12 +59,12 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr class="text-uppercase small text-muted" style="letter-spacing: 0.05em;">
-                        <th class="fw-semibold py-2 ps-3 text-light">Description</th>
-                        <th class="fw-semibold py-2 text-light">Amount</th>
-                        <th class="fw-semibold py-2 text-light">Category</th>
-                        <th class="fw-semibold py-2 text-light">Date</th>
-                        <th class="fw-semibold py-2 text-center text-light">Status</th>
-                        <th class="fw-semibold py-2 text-center text-light">Delete</th>
+                        <th class="fw-semibold py-2 ps-3 text-light">Բովանդակություն</th>
+                        <th class="fw-semibold py-2 text-light">Գումար</th>
+                        <th class="fw-semibold py-2 text-light">Կատեգորիա</th>
+                        <th class="fw-semibold py-2 text-light">Ամսաթիվ</th>
+                        <th class="fw-semibold py-2 text-center text-light">Ստատուս</th>
+                        <th class="fw-semibold py-2 text-center text-light">Ջնջել</th>
                     </tr>
                 </thead>
                 <tbody>
