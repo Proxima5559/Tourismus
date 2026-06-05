@@ -19,14 +19,14 @@
                     hx-target="main"
                     hx-select="main">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('budget.budget_dashboard') }}">{{ icon('wallet', height=18, width=18) }} Budget</a>
+                        <a class="nav-link" href="{{ url_for('budget.budget_dashboard') }}">{{ icon('wallet', height=18, width=18) }} Բյուդժետ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('currency.exchange') }}">{{ icon('dollar-sign', height=18, width=18) }} Currency Exchange</a>
+                        <a class="nav-link" href="{{ url_for('currency.exchange') }}">{{ icon('dollar-sign', height=18, width=18) }} Արժույթի փոխարինում</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ icon('briefcase', height=18, width=18) }} Tools
+                            {{ icon('briefcase', height=18, width=18) }} Գործ—ր
                         </a>
                         <ul class="dropdown-menu shadow" aria-labelledby="toolsDropdown">
                             <li>
@@ -37,23 +37,23 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('visa.visa_page') }}">
-                                    {{ icon('map', height=16, width=16) }} Visa-free map
+                                    {{ icon('map', height=16, width=16) }} Visa-free քարտեզ
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('plans_dash.index') }}">
-                                    {{ icon('album', height=16, width=16) }} Plan Dashboard
+                                    {{ icon('album', height=16, width=16) }} Պլան Dashboard
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('history.view_calendar') }}">
-                                    {{ icon('calendar', height=16, width=16) }} History Calendar
+                                    {{ icon('calendar', height=16, width=16) }} Օրագիր
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('profile.profile_page') }}">{{ icon('user', height=18, width=18) }} Profile</a>
+                        <a class="nav-link" href="{{ url_for('profile.profile_page') }}">{{ icon('user', height=18, width=18) }} Պրոֆիլ</a>
                     </li>
                 </ul>
 
@@ -67,15 +67,15 @@
                                     hx-post="{{ url_for('auth.logout') }}"
                                     hx-trigger="click"
                                     hx-confirm="Are you sure you want to log out?">
-                                {{ icon('log-out', height=14, width=14) }} Logout
+                                {{ icon('log-out', height=14, width=14) }} Դուրս գալ
                             </button>
                         </li>
                     {% else %}
                         <li class="nav-item" hx-boost="true" hx-target="main" hx-select="main">
-                            <a class="nav-link" href="{{ url_for('auth.login') }}">{{ icon('log-in', height=16, width=16) }} Login</a>
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">{{ icon('log-in', height=16, width=16) }} Մուտք գործել</a>
                         </li>
                         <li class="nav-item" hx-boost="true" hx-target="main" hx-select="main">
-                            <a class="btn btn-dark btn-sm" href="{{ url_for('auth.register') }}">{{ icon('user-plus', height=14, width=14) }} Sign Up</a>
+                            <a class="btn btn-dark btn-sm" href="{{ url_for('auth.register') }}">{{ icon('user-plus', height=14, width=14) }} Գրանցվել</a>
                         </li>
                     {% endif %}
                 </ul>
