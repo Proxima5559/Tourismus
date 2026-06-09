@@ -30,7 +30,7 @@ class ExpenseService:
         has_items = len(expenses) > 0
 
         expenses_html = render_template(
-            "budget/expenses_table.html",
+            "budget/expense/expenses_table.html",
             expenses=expenses,
             total_pages=pagination.pages, 
             current_page=page,
@@ -39,7 +39,7 @@ class ExpenseService:
         )
 
         limits_html = render_template(
-            "budget/category_limits_table.html",
+            "budget/category/category_limits_table.html",
             categories=categories,
             category_limits=category_limits,
             category_spent_totals=category_spent_totals,

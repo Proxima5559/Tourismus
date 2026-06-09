@@ -19,7 +19,7 @@
     <div id="error-container"></div>
 
     <section id="expenses_innerPart" class="mt-4">
-        {% include "budget/expenses_table.html" %}
+        {% include "budget/expense/expenses_table.html" %}
     </section>
 
     <section id="pdf-section-wrapper">
@@ -29,5 +29,5 @@
     </section>
     {% include 'budget/scripts.html' %}
 </div>
-{% include 'budget/add_expense_form.html' %}
+{% include 'budget/expense/add_expense_form.html' %}
 {% include 'budget/category/add_limit_form.html' %}

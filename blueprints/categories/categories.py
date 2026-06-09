@@ -57,7 +57,7 @@ def set_category_limit(slug):
 
             context = build_budget_category_context(budget)
             return render_template(
-                'budget/category_limits_table.html', 
+                'budget/category/category_limits_table.html', 
                 budget=budget,
                 **context
             )
@@ -68,7 +68,7 @@ def set_category_limit(slug):
     else:
         error_msg = list(form.errors.values())[0][0] if form.errors else "Invalid input"
 
-    response = make_response(render_template('budget/expense_result.html', error=error_msg))
+    response = make_response(render_template('budget/expense/expense_result.html', error=error_msg))
     response.headers['HX-Retarget'] = '#error-container'
     return response
 
@@ -100,7 +100,7 @@ def delete_category_limit(slug, category_id):
 
     context = build_budget_category_context(budget)
 
-    return render_template('budget/category_limits_table.html',
+    return render_template('budget/category/category_limits_table.html',
                            budget=budget,
                            budget_id=budget.id,
                            **context)

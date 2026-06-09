@@ -36,12 +36,12 @@ def add_expense(slug):
             return ExpenseService.render_budget_state(budget.id, page=1)
         except Exception as e:
             db.session.rollback()
-            response = make_response(render_template('budget/expense_result.html', error="Database error."), 500)
+            response = make_response(render_template('budget/expense/expense_result.html', error="Database error."), 500)
             response.headers['HX-Retarget'] = '#error-container'
             return response
 
     error_msg = list(form.errors.values())[0][0] if form.errors else "Invalid input"
-    response = make_response(render_template('budget/expense_result.html', error=error_msg), 200)
+    response = make_response(render_template('budget/expense/expense_result.html', error=error_msg), 200)
     response.headers['HX-Retarget'] = '#error-container'
     return response
 
@@ -116,7 +116,7 @@ def filter_expenses(slug):
         pagination = ExpenseService.paginate_expenses(budget.id, page=page, per_page=10, category_id=category_id)
 
         return render_template(
-            "budget/expenses_table.html",
+            "budget/expense/expenses_table.html",
             budget=budget,
             expenses=pagination.items,         
             total_pages=pagination.pages,      
@@ -137,7 +137,7 @@ def filter_expenses(slug):
 def expense_details(slug):
     context = ExpenseService.get_expense_details_context(slug)
     
-    return render_template('budget/expenses_details.html', **context)
+    return render_template('budget/expense/expense_details.html', **context)
                            
 @expenses_bp.route('/expense/<string:slug>/transfer', methods=['POST'])
 @login_required
@@ -169,7 +169,7 @@ def toggle_expense_closed(slug):
 
     pagination = ExpenseService.paginate_expenses(budget.id, page=page, per_page=per_page)
 
-    return render_template("budget/expenses_table.html", 
+    return render_template("budget/expense/expenses_table.html", 
                            expenses=pagination.items,  
                            budget=budget,
                            current_page=page,          
