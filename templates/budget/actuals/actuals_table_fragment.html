@@ -16,7 +16,7 @@
                         <tbody>
                             {% for expense in expenses %}
                                 {% set diff =  expense.amount - (expense.actual_amount or 0) %}
-                                {% include 'budget/actual_row.html' %}
+                                {% include 'budget/actuals/actual_row.html' %}
                             {% endfor %}
                         </tbody>
                     </table>

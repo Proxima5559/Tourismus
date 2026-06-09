@@ -16,9 +16,9 @@
         hx-get="{{ url_for('budget.get_stats', slug=budget.slug) }}" 
         hx-trigger="load, refreshStats from:body"
         hx-swap="innerHTML"> 
-        {% include 'budget/_stats_partial.html' %}
+        {% include 'budget/actuals/_stats_partial.html' %}
     </div>
-    {% include 'budget/actuals_table_fragment.html' %}
+    {% include 'budget/actuals/actuals_table_fragment.html' %}
 </div>
 
 {% endblock %}

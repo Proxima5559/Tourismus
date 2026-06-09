@@ -204,9 +204,9 @@ def view_actuals(slug):
     }
 
     if request.headers.get('HX-Request'):
-        return render_template('budget/actuals_table_fragment.html', **context)
+        return render_template('budget/actuals/actuals_table_fragment.html', **context)
 
-    return render_template('budget/view_actuals.html', **context)
+    return render_template('budget/actuals/view_actuals.html', **context)
 
 @budget_bp.route('/expense/set_actual/<string:slug>', methods=['POST'])
 @login_required
@@ -221,7 +221,7 @@ def set_expense_actual(slug):
         db.session.commit()
 
         if request.headers.get('HX-Request'):
-            row_html = render_template('budget/actual_row.html', expense=expense, budget=expense.budget)
+            row_html = render_template('budget/actuals/actual_row.html', expense=expense, budget=expense.budget)
             response = make_response(row_html)
             response.headers['HX-Trigger'] = 'refreshStats'
             return response
@@ -242,7 +242,7 @@ def get_stats(slug):
     remaining = total_planned - total_actual
     percent = round((total_actual / total_planned * 100), 1) if total_planned > 0 else 0
 
-    return render_template('budget/_stats_partial.html', 
+    return render_template('budget/actuals/_stats_partial.html', 
                            budget=budget, 
                            total_planned=total_planned,
                            total_actual=total_actual,
