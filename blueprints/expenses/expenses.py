@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, make_response
+import flask
 from models import Expense, Budget, Category, BudgetCategoryLimit
 from utils.extensions import db
 from utils.decorators import confirmed_required
@@ -137,7 +138,7 @@ def filter_expenses(slug):
 def expense_details(slug):
     context = ExpenseService.get_expense_details_context(slug)
     
-    return render_template('budget/expense/expense_details.html', **context)
+    return render_template('budget/expense/expenses_details.html', **context)
                            
 @expenses_bp.route('/expense/<string:slug>/transfer', methods=['POST'])
 @login_required

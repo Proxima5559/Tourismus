@@ -73,17 +73,17 @@ class ExpenseService:
 
                 db.session.commit()
                 
-                return render_template('budget/transfer_result.html', 
+                return render_template('budget/expense/transfer_result.html', 
                                      result=f"Moved {amount_to_move} successfully.")
             
             except Exception as e:
                 db.session.rollback()
                 print(f"DB Error: {e}") 
-                return render_template('budget/transfer_result.html', 
+                return render_template('budget/expense/transfer_result.html', 
                                      error="Database update failed.")
         
         error_msg = list(form.errors.values())[0][0] if form.errors else "Invalid submission."
-        return render_template('budget/transfer_result.html', error=error_msg)
+        return render_template('budget/expense/transfer_result.html', error=error_msg)
 
     @staticmethod
     def get_transfer_targets(source_expense):
