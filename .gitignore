@@ -26,7 +26,8 @@ MANIFEST
 
 .venv/
 .poetry/
-
+logs/
+log/
 .env
 .flaskenv
 instance/
