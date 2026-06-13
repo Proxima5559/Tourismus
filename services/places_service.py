@@ -10,6 +10,10 @@ from consonants_cs.country_details import (
 from consonants_cs.safety_rate import SAFETY_RATE
 from consonants_cs.adt_details import INFRA_RATE, CLEAN_RATE, HOTTEST_RATE, EMERGENCY_NUMBERS, HOSPITALITY_RATE
 from consonants_cs.description import COUNTRY_DESCRIPTIONS_HY
+import os
+from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 SAFE_COUNTRY_CODES = {"IS", "IE", "NZ", "AT", "CH", "SG", "PT", "DK", "SI", "FI"}
 DANGEROUS_COUNTRY_CODES = {"AF", "YE", "SY", "LY", "SO", "SD", "SS", "HT", "UA", "MM"}
@@ -45,25 +49,73 @@ class PlacesService:
         return str(val).strip() if str(val).strip() else "Առկա չէ"
 
     @staticmethod
-    @cache.memoize(timeout=86400)
+    @cache.memoize(timeout=86400) 
     def get_external_api_data(country_code):
-        code = country_code.upper()
+        code = str(country_code).strip().upper()
+        api_key = os.getenv("COUNTRY_INFO_API_KEY")
         try:
-            response = http_session.get(f"https://restcountries.com/v3.1/alpha/{code}", timeout=5)
+            url = f"https://api.restcountries.com/countries/v5/codes.alpha_2/{code}"
+            response = http_session.get(
+                url, 
+                headers={"Authorization": f"Bearer {api_key}"}, 
+                timeout=5
+            )
             response.raise_for_status()
-            data = response.json()[0]
-            idd = data.get('idd', {})
-            dial_code = idd.get('root', '') + (idd.get('suffixes', [''])[0] if idd.get('suffixes') else '')
             
+            response_json = response.json()
+            data = response_json.get("data", {})
+            
+            if isinstance(data, list) and len(data) > 0:
+                data = data[0]
+            elif isinstance(data, dict) and "objects" in data:
+                data = data["objects"][0] if data["objects"] else {}
+                
+            names_block = data.get('names', {}) or data.get('name', {}) or {}
+            codes_block = data.get('codes', {}) or {}
+            
+            calling_codes = data.get('calling_codes', [])
+            if isinstance(calling_codes, list) and calling_codes:
+                dial_code = str(calling_codes[0]).strip()
+            else:
+                dial_code = str(data.get('dialing_code', '')) or str(data.get('dialling_code', ''))
+
+            if dial_code and not dial_code.startswith('+') and dial_code != 'N/A':
+                dial_code = f"+{dial_code}"
+            dial_code = dial_code.strip() if (dial_code and dial_code != '+') else "N/A"
+
+            raw_currencies = data.get('currencies', {})
+            parsed_currencies = []
+            if isinstance(raw_currencies, dict):
+                parsed_currencies = [f"{v.get('name', '')} ({k})" for k, v in raw_currencies.items() if isinstance(v, dict)]
+            elif isinstance(raw_currencies, list):
+                parsed_currencies = [f"{item.get('name', '')} ({item.get('code', '')})" for item in raw_currencies if isinstance(item, dict)]
+            
+          
+            raw_area = data.get('area', {})
+            if isinstance(raw_area, dict):
+                area_value = raw_area.get('kilometers') or raw_area.get('value') or raw_area.get('total') or 'N/A'
+            else:
+                area_value = raw_area
+                
+            if area_value and str(area_value).replace('.', '', 1).isdigit():
+                area_value = int(float(area_value))
+            else:
+                area_value = "N/A"
+
+            flags_block = data.get('flags', {}) or {}
+            flag_url = flags_block.get('png') or flags_block.get('url')
+            if not flag_url:
+                flag_url = f"https://flagcdn.com/w320/{code.lower()}.png"
+
             return {
-                "country_name_en": data.get('name', {}).get('common', code),
+                "country_name_en": names_block.get('common') or data.get('name', {}).get('common', code),
                 "population": data.get('population', 'N/A'),
-                "area": data.get('area', 'N/A'),
+                "area": area_value,
                 "continent": data.get('region', 'N/A'),
                 "timezones": data.get('timezones', []),
-                "flag_url": data.get('flags', {}).get('png'),
+                "flag_url": flag_url,
                 "dialing_code": dial_code,
-                "currencies": [f"{v.get('name')} ({k})" for k, v in data.get('currencies', {}).items()]
+                "currencies": parsed_currencies
             }
         except Exception as e:
             logger.error(f"API Error for {code}: {e}")
@@ -73,6 +125,7 @@ class PlacesService:
                 "timezones": [], "currencies": [], "dialing_code": "N/A",
                 "flag_url": f"https://flagcdn.com/w320/{code.lower()}.png"
             }
+        
     @staticmethod
     @cache.memoize(timeout=3600)
     def get_seasonal_recommendations(month_index):

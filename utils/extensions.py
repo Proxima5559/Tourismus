@@ -41,7 +41,7 @@ login_manager.login_view = "auth.login"
 login_manager.login_message_category = "info"
 babel = Babel()
 csrf = CSRFProtect()
-cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
+cache = Cache()
 migrate = Migrate()
 mail = Mail()
 
@@ -50,7 +50,7 @@ http_session = requests.Session()
 retries = Retry(
     total=3,
     backoff_factor=0.3,
-    status_forcelist=[500, 502, 503, 504] 
+    status_forcelist=[429, 500, 502, 503, 504] 
 )
 adapter = HTTPAdapter(max_retries=retries)
 http_session.mount('https://', adapter)
