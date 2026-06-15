@@ -45,7 +45,6 @@ def create_app():
 
     if 'admin' not in app.blueprints:
         admin.init_app(app)
-        admin._views = [] 
         
       
         admin.add_view(UserAdminView(User, db.session, 

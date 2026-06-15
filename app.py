@@ -1,11 +1,12 @@
 import os
-
-from flask import render_template
+from dotenv import load_dotenv
 
 from utils.app_chunk import create_app
 from utils.extensions import db, login_manager
 from utils.error_handlers import register_error_handlers
 from models import Category, User
+
+load_dotenv(".env")
 
 app = create_app()
 register_error_handlers(app)
@@ -20,7 +21,7 @@ def inject_global_vars():
     return dict(form=BudgetForm())
 
 test_password = os.getenv('TEST_PASSWORD', 'SmthIngWentWrong123!')
-admin_password = os.getenv('ADMIN_PASSWORD', 'Admin_super_secret123!')
+admin_password = os.getenv('ADMIN_PASSWORD', 'Admin_super_s12ergffg_sads')
 with app.app_context():
     db.create_all()
     
