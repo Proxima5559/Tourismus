@@ -1,0 +1,9 @@
+{% macro render_spinner(id="loading-spinner", variant="gold") %}
+<div id="{{ id }}" class="htmx-indicator d-flex justify-content-center mb-3">
+    <div class="spinner-border text-{{ variant }}" 
+         style="width: 3rem; height: 3rem; border-width: 0.25em;" 
+         role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+{% endmacro %}

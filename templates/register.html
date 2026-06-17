@@ -4,6 +4,7 @@
 {% block content %}
 {% from 'macros/btn.html' import ui_element with context %}
 {% from 'macros/check_form.html' import render_field with context %}
+{% from 'macros/spinner.html' import render_spinner with context %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 
 <div class="container mt-5" id="register-container">
@@ -33,7 +34,8 @@
                     <form hx-post="{{ url_for('auth.register') }}" 
                           hx-target="#register-container" 
                           hx-select="#register-container"
-                          hx-swap="outerHTML">
+                          hx-swap="outerHTML"
+                          hx-indicator="#loading-spinner">
                         
                         {{ form.csrf_token }}
 
@@ -76,7 +78,7 @@
                         <div class="mb-4">
                             {{ render_field(form.confirm_password, placeholder="Կրկնել գաղտնաբառը", class="form-control form-control-lg") }}
                         </div>
-
+                        {{render_spinner(id="loading-spinner")}}
                         {{ ui_element(
                             text="Գրանցվել",
                             type="submit",

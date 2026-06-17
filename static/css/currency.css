@@ -94,6 +94,6 @@
 }
 
 #loading-spinner .spinner-border {
-    border-right-color: transparent !important; /* This creates the 'tail' gap */
+    border-right-color: transparent !important; 
     animation: spinner-border .75s linear infinite;
 }
