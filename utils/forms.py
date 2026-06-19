@@ -9,14 +9,14 @@ from email_validator import validate_email, EmailNotValidError
 
 class ExpenseForm(FlaskForm):
     description = StringField('Description', validators=[
-        DataRequired(message="Description is required"),
-        Length(min=2, max=32, message="Description must be between 2 and 32 characters")
+        DataRequired(message="Բովանդակությունը պարտադիր է"),
+        Length(min=2, max=32, message="Բովանդակությունը պետք է լինի 2-ից 32 նիշի միջև")
     ])
     amount = DecimalField('Amount', validators=[
-        DataRequired(message="Amount is required"),
-        NumberRange(min=0.01, message="Amount must be positive")
+        DataRequired(message="Գումարը պարտադիր է"),
+        NumberRange(min=0.01, message="Գումարը պետք է լինի դրական")
     ])
-    category_id = SelectField('Category', coerce=int, validators=[DataRequired(message="Category is required")])
+    category_id = SelectField('Category', coerce=int, validators=[DataRequired(message="Կատեգորիան պարտադիր է")])
 
     def __init__(self, budget_id, *args, **kwargs):
         super(ExpenseForm, self).__init__(*args, **kwargs)
@@ -74,26 +74,26 @@ class RegistrationForm(FlaskForm):
 
         user = User.query.filter_by(email=email_data).first()
         if user:
-            raise ValidationError('Email already registered. Try logging in.')
+            raise ValidationError('Էլ. փոստը արդեն օգտագործվում է։ Փորձեք մեկ այլ։')
 
     def validate_username(self, field):
         user = User.query.filter_by(username=field.data).first()
         if user:
-            raise ValidationError('Username is already taken.')
+            raise ValidationError('Օգտանունը արդեն օգտագործվում է։')
         
 
 class BudgetForm(FlaskForm):
     name = StringField('Budget Name', validators=[
         DataRequired(), 
-        Length(min=3, max=100, message="Name must be between 3 and 100 characters")
+        Length(min=3, max=100, message="Անունը պետք է լինի 3-ից 100 նիշի միջև")
     ])
     amount = DecimalField('Amount', validators=[
         DataRequired(), 
-        NumberRange(min=0.01, message="Amount must be positive")
+        NumberRange(min=0.01, message="Գումարը պետք է լինի դրական")
     ])
     currency = StringField('Currency', validators=[
         DataRequired(), 
-        Length(max=10, message="Currency too long")
+        Length(max=10, message="Արժույթի անունը շատ երկար է")
     ])
     start_date = DateField('Start Date', validators=[DataRequired()])
     end_date = DateField('End Date', validators=[DataRequired()])
@@ -101,7 +101,7 @@ class BudgetForm(FlaskForm):
     def validate_end_date(self, field):
         if self.start_date.data and field.data:
             if self.start_date.data > field.data:
-                raise ValidationError("End date must be after start date")
+                raise ValidationError("Վերջնական ամսաթիվը պետք է լինի սկիզբի ամսաթվից հետո։")
             
 class CategoryLimitForm(FlaskForm):
     category_id = SelectField('Category', coerce=int, validators=[DataRequired()])
@@ -117,7 +117,7 @@ class CategoryLimitForm(FlaskForm):
     def validate_limit_amount(self, field):
         budget = Budget.query.get(self.budget_id)
         if budget and float(field.data) > float(budget.amount):
-            raise ValidationError(f"Category limit cannot exceed total budget (${budget.amount})")
+            raise ValidationError(f"Կատեգորիայի սահմանը չպետք է գերազանցի բյուջեն (${budget.amount})")
 
 
 
@@ -152,20 +152,20 @@ class DailyPlanForm(FlaskForm):
             
             duplicate = DailyPlan.query.filter_by(budget_id=self.budget_id.data, date=field.data).first()
             if duplicate:
-                raise ValidationError("A plan for this date already exists.")
+                raise ValidationError("Պլանը արդեն գոյություն ունի այս ամսաթվով։ Խնդրում ենք ընտրել մեկ այլ ամսաթիվ։")
             
 class TransferForm(FlaskForm):
     target_expense_id = SelectField(
         'Target Expense',
         coerce=int,
-        validators=[DataRequired(message="Please select a target expense.")]
+        validators=[DataRequired(message="Խնդրում ենք ընտրել նպատակային ծախս")],
     )
 
     amount = FloatField( 
         'Amount',
         validators=[
             DataRequired(message="Amount is required"),
-            NumberRange(min=0.01, message="Amount must be greater than zero")
+            NumberRange(min=0.01, message="Արժեքը պետք է լինի դրական")
         ]
     )
 
@@ -176,14 +176,14 @@ class TransferForm(FlaskForm):
     def validate_target_expense_id(self, field):
         target = Expense.query.get(field.data)
         if not target:
-            raise ValidationError("Target expense not found.")
+            raise ValidationError("Նպատակային ծախսը չի գտնվել։")
         if target.id == self.source_expense.id:
-            raise ValidationError("Cannot transfer to the same expense.")
+            raise ValidationError("Չի կարող փոխարինել միևնույն ծախսը։")
         if target.is_closed:
-            raise ValidationError("Cannot transfer to a closed expense.")
+            raise ValidationError("Չի կարող փոխարինել փակված ծախսը։")
 
     def validate_amount(self, field):
         if field.data > float(self.source_expense.amount):
             raise ValidationError(
-                f"Insufficient funds! Max available: {self.source_expense.amount}"
+                f"Անբավական միջոցներ։ Առաջարկվող առաջարկը. {self.source_expense.amount}"
             )
