@@ -2,11 +2,11 @@ from flask import Blueprint, flash, render_template, request, redirect, url_for,
 from loguru import logger
 from services.auth_service import AuthService
 from utils.decorators import confirmed_required
-from utils.extensions import db, mail, limiter
+from utils.extensions import db, limiter
 from utils.forms import LoginForm, RegistrationForm
 from models import User
-from flask_login import login_required, login_required, login_user, logout_user
-from flask_mail import Message, Mail
+from flask_login import login_required, login_user, logout_user
+from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer
 
 

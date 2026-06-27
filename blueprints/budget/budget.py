@@ -226,7 +226,7 @@ def set_expense_actual(slug):
             response.headers['HX-Trigger'] = 'refreshStats'
             return response
 
-    except Exception as e:
+    except Exception:
         db.session.rollback()
         return "Error saving amount", 400
     

@@ -23,7 +23,8 @@ share/python-wheels/
 *.egg
 flask_cache_bin/
 MANIFEST
-
+.vscode/
+.ruff_cache 
 .venv/
 .poetry/
 logs/
