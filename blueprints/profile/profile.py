@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify, Response, make_response
-import json
+from flask import Blueprint, render_template, session, url_for
 from models import Budget, User, DailyPlan
 from utils.extensions import db
 from utils.decorators import confirmed_required

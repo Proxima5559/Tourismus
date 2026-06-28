@@ -3,7 +3,6 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from datetime import date, datetime, timedelta
 import calendar
-from utils.extensions import db
 from utils.decorators import confirmed_required
 from models import DailyPlan, Expense 
 from collections import defaultdict

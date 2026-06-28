@@ -1,14 +1,11 @@
 from flask import Blueprint, request, render_template, make_response
-import flask
-from models import Expense, Budget, Category, BudgetCategoryLimit
+from models import Expense, Budget, Category
 from utils.extensions import db
 from utils.decorators import confirmed_required
 from utils.forms import ExpenseForm, TransferForm
-from sqlalchemy import func
 from flask_login import current_user, login_required
 from loguru import logger
 import json
-from sqlalchemy.orm import joinedload
 from services.expense_service import ExpenseService
 
 
@@ -35,7 +32,7 @@ def add_expense(slug):
             db.session.add(expense)
             db.session.commit()
             return ExpenseService.render_budget_state(budget.id, page=1)
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             response = make_response(render_template('budget/expense/expense_result.html', error="Database error."), 500)
             response.headers['HX-Retarget'] = '#error-container'
