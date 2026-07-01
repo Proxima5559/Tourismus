@@ -71,7 +71,6 @@ class PlacesService:
                 data = data["objects"][0] if data["objects"] else {}
                 
             names_block = data.get('names', {}) or data.get('name', {}) or {}
-            codes_block = data.get('codes', {}) or {}
             
             calling_codes = data.get('calling_codes', [])
             if isinstance(calling_codes, list) and calling_codes:

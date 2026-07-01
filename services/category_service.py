@@ -2,7 +2,7 @@ from flask import render_template, make_response
 from sqlalchemy.orm import joinedload
 from loguru import logger
 from utils.extensions import db
-from models import Budget, Category, BudgetCategoryLimit
+from models import Category, BudgetCategoryLimit
 
 class CategoryService:
 
